@@ -43,3 +43,42 @@ nunmap <c-u>
 " Strict Mapping
 inoremap <c-u> <esc>viwUA
 iunmap <c-u>
+
+" Leaders
+let maplocalleader = "\\"
+inoremap <localleader>u <esc>viwUA
+iunmap <localleader>u
+
+" Editing Your Vimrc
+nnoremap <localleader>ev :vsplit $MYVIMRC<cr>
+nnoremap <localleader>sv :source $MYVIMRC<cr>
+
+" More Mappings
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+
+nnoremap <leader>m viw<esc>a`$<esc>bbi$`<esc>f$
+vnoremap <leader>m <esc>a`$<esc>gvo<esc>i$`<esc>f$
+
+nnoremap <leader>b viw<esc>a*<esc>bi*<esc>lel
+vnoremap <leader>b <esc>a*<esc>gvo<esc>i*<esc>lel
+
+" Set editor font
+set guifont=Consolas:h11
+
+" highlight cursor row
+set cursorline
+" highlight cursor col
+set cursorcolumn
+
+" Set char encoding
+set encoding=utf-8
+set fileencodings=utf-8,gb18030,utf-16,big5 
+
+inoremap jk <esc>
+inoremap <esc> <nop>
+
+autocmd FileType java  nnoremap <buffer> <localleader>c I// <esc>
+autocmd FileType c     nnoremap <buffer> <localleader>c I// <esc>
+autocmd FileType c++   nnoremap <buffer> <localleader>c I// <esc>
+autocmd FileType shell nnoremap <buffer> <localleader>c I# <esc>
+```
