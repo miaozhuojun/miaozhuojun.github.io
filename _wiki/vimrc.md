@@ -62,6 +62,9 @@ vnoremap <leader>m <esc>a`$<esc>gvo<esc>i$`<esc>f$
 nnoremap <leader>b viw<esc>a*<esc>bi*<esc>lel
 vnoremap <leader>b <esc>a*<esc>gvo<esc>i*<esc>lel
 
+nnoremap <leader>` viw<esc>a`<esc>bi`<esc>lel
+vnoremap <leader>` <esc>a`<esc>gvo<esc>i`<esc>lel
+
 " Set editor font
 set guifont=Consolas:h11
 
