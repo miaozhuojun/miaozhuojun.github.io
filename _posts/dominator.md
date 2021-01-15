@@ -5,6 +5,7 @@ categories: C2
 description: C2中的Dominator是被算法
 keywords: Hotspot，C2，JVM，算法
 mathjax: true
+mermaid: true
 ---
 
 
