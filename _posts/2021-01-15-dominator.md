@@ -20,7 +20,8 @@ mermaid: true
       
       <div class="mermaid">
       sequenceDiagram
-        Alice-->>John: Hello John, how are you?
+      loop every day
+        Alice->>John: Hello John, how are you?
         John-->>Alice: Great!
       </div>
 
