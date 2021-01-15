@@ -19,12 +19,11 @@ mermaid: true
       Fig.1. A flowgraph
       
       <div class="mermaid">
-          graph TD
-            A[Christmas] -->|Get money| B(Go shopping)
-            B --> C{Let me think}
-            C -->|One| D[Laptop]
-            C -->|Two| E[iPhone]
-            C -->|Three| F[Car]
+        sequenceDiagram
+        loop every day
+          Alice->>John: Hello John, how are you?
+          John-->>Alice: Great!
+        end
       </div>
 
     - Every vertex is an ancestor and a descendant of itself.[^3]
