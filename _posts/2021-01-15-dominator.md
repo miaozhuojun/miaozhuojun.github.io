@@ -17,7 +17,8 @@ mermaid: true
     - THEOREM 1. Every vertex of a flowgraph $$G = (V, E, r)$$ except $$r$$ has a unique immediate dominator. The edges $$\{(idom(w), w) \mid w \in V - \{r\}\}$$ form a directed tree rooted at $$r$$, called the dominator tree of $$G$$, such that $$v$$ dominates $$w$$ if and only if $$v$$ is a proper ancestor of $$w$$ in the dominator tree. See Figures 1 and 2.[^1],[^2]
 
       Fig.1. A flowgraph
-   <div class="mermaid">
+      
+<div class="mermaid">
       graph TD
         R((R)) 
         A((A))
@@ -53,9 +54,10 @@ mermaid: true
         K --> R
         K --> I
         L --> H
-  </div>
+</div>
 
       Fig.2. Dominator tree of flowgraph in Fig.1
+      
       ```mermaid
       graph TD
         R((R)) 
