@@ -125,33 +125,23 @@ mermaid: true
 
     - 证明的逻辑关系
 
-      ```mermaid
-      graph LR
-        L1[LEMMA 1]
-        L2[LEMMA 2]
-        L3[LEMMA 3]
-        L4[LEMMA 4]
-        L5[LEMMA 5]
-        T1(THEOREM 1)
-        T2(THEOREM 2)
-        T3(THEOREM 3)
-        T4(THEOREM 4)
-        C1(COROLLARY 1)
-        L1 --> L3
-        L2 --> L4
-        L3 --> L4
-        T1 --> L5
-        L1 --> T2
-        L4 --> T2
-        L4 --> T3
-        L5 --> T3
-        T2 --> C1
-        T3 --> C1
-        L1 --> T4
-        L3 --> T4
-        style C1 fill:#f9f
-        style T4 fill:#f9f
-      ```
+      <div class="mermaid">
+      graph LR;
+        L1[LEMMA 1] --> L3[LEMMA 3];
+        L2[LEMMA 2] --> L4[LEMMA 4];
+        L3 --> L4;
+        T1(THEOREM 1) --> L5[LEMMA 5];
+        L1 --> T2(THEOREM 2);
+        L4 --> T2;
+        L4 --> T3(THEOREM 3);
+        L5 --> T3;
+        T2 --> C1(COROLLARY 1);
+        T3 --> C1;
+        L1 --> T4(THEOREM 4);
+        L3 --> T4;
+        style C1 fill:#f9f;
+        style T4 fill:#f9f;
+      </div>
 
   - 算法及其高效实现
 
