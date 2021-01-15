@@ -12,7 +12,7 @@ mermaid: true
 
   - [Lengauer & Tarjan $$\Omicron(m\alpha(m, n))$$ algorithm](https://dl.acm.org/doi/pdf/10.1145/357062.357071)概述
 
-    - Let $$G = (V, E, r)$$ be a flowgraph with start vertex $$r$$. A vertex $$v$$ dominates another vertex $$w {=}\mathllap{/\,} v$$ in $$G$$ if every path from $$r$$ to $$w$$ contains $$v$$. Vertex $$v$$ is the immediate dominator of $$w$$, denoted $$v = idom(w)$$, if $$v$$ dominates $$w$$ and every other dominator of $$w$$ dominates $$v$$.
+    - Let $$G = (V, E, r)$$ be a flowgraph with start vertex $$r$$. A vertex $$v$$ dominates another vertex $$w \ne v$$ in $$G$$ if every path from $$r$$ to $$w$$ contains $$v$$. Vertex $$v$$ is the immediate dominator of $$w$$, denoted $$v = idom(w)$$, if $$v$$ dominates $$w$$ and every other dominator of $$w$$ dominates $$v$$.
     
     - THEOREM 1. Every vertex of a flowgraph $`G = (V, E, r)`$ except $`r`$ has a unique immediate dominator. The edges $`\{(idom(w), w) \mid w \in V - \{r\}\}`$ form a directed tree rooted at $`r`$, called the dominator tree of $`G`$, such that $`v`$ dominates $`w`$ if and only if $`v`$ is a proper ancestor of $`w`$ in the dominator tree. See Figures 1 and 2.[^1],[^2]
 
