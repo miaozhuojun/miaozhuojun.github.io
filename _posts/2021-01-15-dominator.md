@@ -20,8 +20,7 @@ mermaid: true
       
       <div class="mermaid">
       graph TD;
-        A((A))；
-        A --> B;
+        A((A)) --> B；
         B --> C;
       </div>
 
