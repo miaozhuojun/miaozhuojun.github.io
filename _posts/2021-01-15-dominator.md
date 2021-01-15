@@ -42,6 +42,24 @@ mermaid: true
         K --> I;
         L --> H;
       </div>
+      
+      Fig.2. Dominator tree of flowgraph in Fig.1
+      
+      <div class="mermaid">
+      graph TD; 
+        R((R)) --> I((I));
+        R --> K((K));
+        R --> C((C));
+        C --> F((F));
+        C --> G((G));
+        G --> J((J));
+        R --> H((H));
+        R --> E((E));
+        R --> A((A));
+        R --> D((D));
+        D --> L((L));
+        R --> B((B));
+      </div>
 
     - Every vertex is an ancestor and a descendant of itself.[^3]
 
