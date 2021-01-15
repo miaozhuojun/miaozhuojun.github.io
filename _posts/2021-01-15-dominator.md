@@ -19,7 +19,7 @@ mermaid: true
       Fig.1. A flowgraph
       
       <div class="mermaid">
-      graph LR;
+      graph TD;
         A-->B;
         B-->C;
       </div>
