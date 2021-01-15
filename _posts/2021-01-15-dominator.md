@@ -20,8 +20,8 @@ mermaid: true
       
       <div class="mermaid">
       graph TD;
-        A-->B;
-        B-->C;
+        A --> B;
+        B --> C;
       </div>
 
     - Every vertex is an ancestor and a descendant of itself.[^3]
