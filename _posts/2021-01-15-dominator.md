@@ -139,8 +139,8 @@ mermaid: true
         T3 --> C1;
         L1 --> T4(THEOREM 4);
         L3 --> T4;
-        style C1 fill:#f9f;
-        style T4 fill:#f9f;
+        style C1 fill:#f9f
+        style T4 fill:#f9f
       </div>
 
   - 算法及其高效实现
