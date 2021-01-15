@@ -19,11 +19,11 @@ mermaid: true
       Fig.1. A flowgraph
       
       <div class="mermaid">
-      graph LR
-        A[Hard edge] --Link text--> B(Round edge)
-        B --> C{Decision}
-        C -->|One| D[Result one]
-        C -->|Two| E[Result two]
+      graph LR;
+        A[Hard edge] --Link text--> B(Round edge);
+        B --> C{Decision};
+        C -->|One| D[Result one];
+        C -->|Two| E[Result two];
       </div>
 
     - Every vertex is an ancestor and a descendant of itself.[^3]
