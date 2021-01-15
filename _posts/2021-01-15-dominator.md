@@ -91,13 +91,13 @@ mermaid: true
 
       Proof. 由于$$v \leqslant w$$，所以$$v$$只可能来自于$$w$$的祖先节点或者是preorder小于$$w$$的兄弟节点，如果来自祖先节点则$$v$$和$$w$$的公共祖先节点显然应该是$$v$$，否则，从$$v$$到$$w$$的路径必然需要经过$$w$$的祖先节点，因为如果不经过$$w$$的祖先节点，在做DFS时就应该将$$v$$和$$w$$放入同一棵子树中，而这与$$v$$来自兄弟节点的假设矛盾，所以路径中必定存在$$v$$和$$w$$共同的祖先节点。更加详细的证明请参考[^4] $$\Box$$
 
-    - LEMMA 2. For any vertex $$w {=}\mathllap{/\,} r$$, $$idom(w) \xrightarrow{+} w$$[^5].
+    - LEMMA 2. For any vertex $$w \ne r$$, $$idom(w) \xrightarrow{+} w$$[^5].
 
       Proof. $$w$$的任何一个dominator肯定在$$r$$到$$w$$的任意一个路径上，从而也肯定在$$T$$的任意$$r$$到$$w$$的路径上 $$\Box$$
 
-    - $$sdom(w) = min\{v \mid$$ there is a path $$v = v_0, v_1, \mathellipsis, v_k = w$$ such that $$v_i > w$$ for $$1 \leqslant i \leqslant k - 1\}$$. (1)
+    - $$sdom(w) = min\{v \mid$$ there is a path $$v = v_0, v_1, \ldots, v_k = w$$ such that $$v_i > w$$ for $$1 \leqslant i \leqslant k - 1\}$$. (1)
 
-    - LEMMA 3. For any vertex $$w {=}\mathllap{/\,} r$$, $$sdom(w) \xrightarrow{+} w$$.
+    - LEMMA 3. For any vertex $$w \ne r$$, $$sdom(w) \xrightarrow{+} w$$.
     
       Proof.1. 这里从$$sdom(w)$$的定义可以得到：如果$$w$$的前继节点来自$$w$$的祖先节点，则$$sdom(w)$$为该前继节点；如果前继节点来自$$w$$的preorder大于$$w$$的兄弟节点，根据$$sdom(w)$$的定义，$$sdom(w)$$肯定为$$w$$的某一祖先节点；如果前继节点来自$$w$$的子孙节点，则递归使用这个过程分析。所以无论如何，$$sdom(w)$$肯定是$$w$$的某一祖先节点，且至少是其父节点 $$\Box$$
 
