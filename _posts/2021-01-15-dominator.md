@@ -18,7 +18,6 @@ mermaid: true
 
       Fig.1. A flowgraph
    <div class="mermaid">
-      ```mermaid
       graph TD
         R((R)) 
         A((A))
@@ -54,7 +53,6 @@ mermaid: true
         K --> R
         K --> I
         L --> H
-      ```
   </div>
 
       Fig.2. Dominator tree of flowgraph in Fig.1
