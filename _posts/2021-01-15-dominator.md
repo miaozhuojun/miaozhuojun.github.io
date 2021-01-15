@@ -19,9 +19,41 @@ mermaid: true
       Fig.1. A flowgraph
       
       <div class="mermaid">
-      sequenceDiagram
-          Alice-->>John: Hello John, how are you?
-          John-->>Alice: Great!
+      graph TD；
+        R((R))；
+        A((A))；
+        B((B))；
+        C((C))；
+        D((D))；
+        E((E))；
+        F((F))；
+        G((G))；
+        H((H))；
+        I((I))；
+        J((J))；
+        K((K))；
+        L((L))；
+        R --> A；
+        R --> B；
+        R --> C；
+        A --> D；
+        B --> A；
+        B --> D；
+        B --> E；
+        C --> F；
+        C --> G；
+        D --> L；
+        E --> H；
+        F --> I；
+        G --> I；
+        G --> J；
+        H --> E；
+        H --> K；
+        I --> K；
+        J --> I；
+        K --> R；
+        K --> I；
+        L --> H；
       </div>
 
     - Every vertex is an ancestor and a descendant of itself.[^3]
