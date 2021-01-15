@@ -105,12 +105,12 @@ mermaid: true
 
     - COROLLARY 1. Let $$w \ne r$$ and let $$u$$ be a vertex for which $$sdom(u)$$ is minimum among vertices $$u$$ satisfying $$sdom(w) \xrightarrow{+} u \xrightarrow{*} w$$. Then
 
-      ```math
+      $$
       idom(w) = \begin{cases}
         sdom(w) &\text{if } sdom(w) = sdom(u), \\
         idom(u) &\text{} otherwise.
       \end{cases}
-      ```
+      $$
 
       PROOF. 如果$$sdom(u) = sdom(w)$$，则所有的其他可能的u取值肯定都满足根据$$sdom(u) \geqslant sdom(w)$$。根据THEOREM 2，$$idom(w) = sdom(w)$$。否则直接取THEOREM 3得结论。 $$\Box$$
 
