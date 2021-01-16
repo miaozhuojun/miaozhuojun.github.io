@@ -118,7 +118,7 @@ mermaid: true
 
       PROOF. 假设等式右边的表达式等于变量$$x$$。我们首先证明$$sdom(w) \leqslant x$$。假设$$(x, w) \in E$$，并且$$x < w$$。那么，根据$$sdom$$的定义，$$sdom(w) \leqslant x$$。另外一方面，如果$$x = sdom(u)$$，$$u > w$$，并且存在一条边$$(v, w)$$，$$u$$到$$v$$存在树路径（$$u \xrightarrow{*} v$$）。根据$$sdom$$定义，存在一条路径$$x = v_0, v_1, \ldots, v_j = u$$，其中对于$$1 \leqslant i \leqslant j - 1$$，$$v_i > u > w$$。而树路径$$u = v_j \rightarrow v_j+1 \rightarrow \ldots \rightarrow v_k-1 = v$$中的节点$$v_i$$满足$$v_i \geqslant u > w$$，对于$$j \leqslant i \leqslant k - 1$$。从而也就有了路径$$x = v_0, v_1, \ldots, v_k-1 = v, v_k = w$$，其中对于$$1 \leqslant i \leqslant k - 1$$，$$v_i > w$$，根据$$sdom$$定义，$$sdom(w) \leqslant x$$。
 
-      然后需要再证明$$sdom(w) \geqslant x$$。设$$sdom(w) = v_0, v_1, \ldots, v_k = w$$，对于$$1 \leqslant i \leqslant k - 1$$，$$v_i > w$$。当$$k = 1$$时，$$(sdom(w), w) \in E$$，并且根据Lemma 3，$$sdom(w) < w$$，因此$$sdom(w) \geqslant x$$（$$x$$是最小的此类$$sdom(w)$$）。另一方面，当$$k > 1$$时，设$$j$$是满足条件$$j \geqslant 1$$并且$$v_j \xrightarrow{*} v_k-1$$的最小取值。
+      然后需要再证明$$sdom(w) \geqslant x$$。设$$sdom(w) = v_0, v_1, \ldots, v_k = w$$，对于$$1 \leqslant i \leqslant k - 1$$，$$v_i > w$$。当$$k = 1$$时，$$(sdom(w), w) \in E$$，并且根据Lemma 3，$$sdom(w) < w$$，因此$$sdom(w) \geqslant x$$（$$x$$是最小的此类$$sdom(w)$$）。另一方面，当$$k > 1$$时，设$$j$$是满足条件$$j \geqslant 1$$并且$$v_j \xrightarrow{*} v_(k-1)$$的最小取值。
       我们需要证明$$v_i > v_j$$，其中$$1 \leqslant i \leqslant j - 1$$。假设存在$$v_i \leqslant v_j$$，$$1 \leqslant i \leqslant j - 1$$。根据Lemma 1，从$$v_i$$到$$v_j$$存在一个公共祖先节点$$v_min$$，从而满足$$v_min \xrightarrow{*} v_j$$，这与$$j$$的定义矛盾。
 
       因为$$sdom(w) = v_0$$，所以$$sdom(w) \geqslant sdom(v_j)$$，又因为$$x$$是所有可能取值的最小值，所以$$sdom(v_j) \geqslant x$$。$$sdom(w) \geqslant x$$得证，所以$$sdom(w) = x$$。 $$\Box$$
