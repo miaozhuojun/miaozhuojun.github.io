@@ -112,7 +112,7 @@ mermaid: true
       \end{cases}
       $$
 
-      PROOF. 如果$$sdom(u) = sdom(w)$$，则所有的其他可能的u取值肯定都满足根据$$sdom(u) \geqslant sdom(w)$$。根据THEOREM 2，$$idom(w) = sdom(w)$$。否则直接取THEOREM 3得结论。 $$\Box$$
+      PROOF. 如果$$sdom(u) = sdom(w)$$，则所有的其他可能的u取值肯定都满足根据$$sdom(u) \geqslant sdom(w)$$。根据THEOREM 2，$$idom(w) = sdom(w)$$。否则直接取THEOREM 3的结论。 $$\Box$$
 
     - THEOREM 4. For any vertex $$w \ne r$$, $$sdom(w) = min(\{v \mid (v, w) \in E$$ and $$v < w\} \cup \{sdom(u) \mid u > w$$ and there is an edge $$(v, w)$$ such that $$u \xrightarrow{*} v\})$$.
 
@@ -125,6 +125,8 @@ mermaid: true
 
     - 证明的逻辑关系
 
+      Fig.3. 证明逻辑图
+      
       <div class="mermaid">
       graph LR;
         L1[LEMMA 1] --> L3[LEMMA 3];
