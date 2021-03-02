@@ -78,7 +78,8 @@ set encoding=utf-8
 set fileencodings=utf-8,gb18030,utf-16,big5 
 
 inoremap jk <esc>
-inoremap <esc> <nop>
+" May cause paste problem
+" inoremap <esc> <nop>
 
 autocmd FileType java  nnoremap <buffer> <localleader>c I// <esc>
 autocmd FileType c     nnoremap <buffer> <localleader>c I// <esc>
