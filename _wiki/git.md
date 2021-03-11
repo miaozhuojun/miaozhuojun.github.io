@@ -2,11 +2,11 @@
 layout: wiki
 title: git
 categories: git
-description: git配置
+description: git 配置
 keywords: git, 配置
 ---
 
-### .gitconfig的个人配置，将不断更新
+### .gitconfig 的个人配置，将不断更新
 
 ```shell
 [user]
@@ -23,12 +23,12 @@ keywords: git, 配置
         sslVerify = false
 ```
 
-### git操作笔记
+### git 操作笔记
 
 #### 修改远程仓库
 
 - 添加远程仓库
-  
+
   `git remote add repository_name repository_ssh_or_http_address`
 
 - 远程仓库重命名

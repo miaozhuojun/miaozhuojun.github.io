@@ -1,12 +1,12 @@
 ---
 layout: wiki
-title: vim配置
+title: vim 配置
 categories: vim
-description: vim配置
+description: vim 配置
 keywords: vim，配置
 ---
 
-#### 以下是个人的vimrc配置，会不断更新
+#### 以下是个人的 vimrc 配置，会不断更新
 
 ```vim
 echo ">^.^<"
@@ -17,8 +17,15 @@ set nocompatible
 filetype plugin on
 
 " Add vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('$HOME\vimfiles\plugin')
 Plug 'gabrielelana/vim-markdown'
+Plug 'hotoo/pangu.vim'
 call plug#end()
 
 " disable autogeneration of un~ & ~ files
@@ -75,7 +82,7 @@ set cursorcolumn
 
 " Set char encoding
 set encoding=utf-8
-set fileencodings=utf-8,gb18030,utf-16,big5 
+set fileencodings=utf-8,gb18030,utf-16,big5
 
 inoremap jk <esc>
 " May cause paste problem
@@ -85,4 +92,5 @@ autocmd FileType java  nnoremap <buffer> <localleader>c I// <esc>
 autocmd FileType c     nnoremap <buffer> <localleader>c I// <esc>
 autocmd FileType c++   nnoremap <buffer> <localleader>c I// <esc>
 autocmd FileType shell nnoremap <buffer> <localleader>c I# <esc>
+autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
 ```
