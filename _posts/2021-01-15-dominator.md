@@ -171,7 +171,7 @@ mermaid: true
 
       $$semi(w)$$:      A number defined as follows:
 
-        - Before vertex $$w$$ is numbered, $$semi(v) = O$$.
+        - Before vertex $$w$$ is numbered, $$semi(v) = 0$$.
 
         - After $$w$$ is numbered but before its semidominator is computed, $$semi(w)$$ is the number of $$w$$.
 
