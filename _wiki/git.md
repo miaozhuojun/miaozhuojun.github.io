@@ -44,3 +44,7 @@ keywords: git, 配置
 - 重命名文件
 
   `git mv old_name new_name`
+
+#### 使用镜像加速 git clone 和 git pull
+
+使用`github.com.cnpmjs.org`替换`github.com`
