@@ -19,6 +19,7 @@ keywords: git, 配置
         lg = log --graph --pretty=oneline --abbrev-commit
 [core]
         editor = vim
+        quotepath = false
 [http]
         sslVerify = false
 ```
