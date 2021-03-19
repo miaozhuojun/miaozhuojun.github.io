@@ -48,3 +48,37 @@ keywords: git, 配置
 #### 使用镜像加速 git clone 和 git pull
 
 使用`github.com.cnpmjs.org`替换`github.com`
+
+#### 制作 patch
+
+- 如果修改尚未提交
+
+  ```shell
+  git diff > patch_name.patch
+  ```
+
+- 如果修改有新增文件，且新增文件不在 git 管理内
+
+  ```shell
+  git diff --cached > patch_name.patch
+  ```
+
+- 如果修改中还包含二进制文件，例如图片
+
+  ```shell
+  git diff --cached --binary > patch_name.patch
+  ```
+
+- 以某次提交内容制作 patch
+
+  ```shell
+  git format-patch -1 commit_id
+  ```
+
+  这里的 1 代表生成从 commit_id 起往前 1 个提交对应的 patch，也可以生成多个提交对应的 patch
+
+#### 打 patch
+
+  ```shell
+  git apply patch_name.patch
+  ```
