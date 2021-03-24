@@ -3,7 +3,7 @@ layout: wiki
 title: git
 categories: git
 description: git 配置
-keywords: git, 配置
+keywords: git, 版本管理
 ---
 
 ### .gitconfig 的个人配置，将不断更新
@@ -82,4 +82,41 @@ keywords: git, 配置
 
   ```shell
   git apply patch_name.patch
+  ```
+
+#### 查看某次提交
+
+- 查询 commit ID
+
+  ```shell
+  git log
+  ```
+
+- 根据 commit ID 查看某次提交的具体信息
+
+  - 查看最新提交
+
+    ```shell
+    git show
+    ```
+
+  - 查看某次提交
+
+    ```shell
+    git show commitId
+    ```
+
+  - 查看某次提交中某个文件的修改
+
+    ```shell
+    git show commitId fileName
+    ```
+
+#### 从 github 上下载某次 commit 对应的 patch
+
+- 首先获取某次 commit 的 ID
+- 然后修改 commit 的 URL
+
+  ```
+  http://github/com/foo/bar/commit/${ID}.patch/
   ```
