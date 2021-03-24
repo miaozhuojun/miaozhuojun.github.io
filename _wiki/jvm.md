@@ -1,8 +1,8 @@
 ---
 layout: wiki
-title: JVM 命令和选项
+title: JVM 相关
 categories: JVM
-description: JVM 调测和选项
+description: JVM 相关
 keywords: JVM，调测，选项
 ---
 
@@ -34,3 +34,9 @@ keywords: JVM，调测，选项
   ```shell
   make test TEST="tier1"
   ```
+
+### JVM 字节码
+
+- 字节码指令手册
+
+  [Chapter 6. The Java Virtual Machine Instruction Set](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html)

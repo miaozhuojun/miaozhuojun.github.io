@@ -10,8 +10,8 @@ keywords: gdb, 技巧
 
 - 打印十六进制数
 
-  ```gdb
-  p/x val
+  ```shell
+  (gdb) p/x val
   ```
 
 ### 设置断点
