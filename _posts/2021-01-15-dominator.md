@@ -18,50 +18,50 @@ mermaid: true
 
 - THEOREM 1. Every vertex of a flowgraph $$G = (V, E, r)$$ except $$r$$ has a unique immediate dominator. The edges $$\{(idom(w), w) \mid w \in V - \{r\}\}$$ form a directed tree rooted at $$r$$, called the dominator tree of $$G$$, such that $$v$$ dominates $$w$$ if and only if $$v$$ is a proper ancestor of $$w$$ in the dominator tree. See Figures 1 and 2.[^1],[^2]
 
-      Fig.1. A flowgraph
+  Fig.1. A flowgraph
 
-      <div class="mermaid">
-      graph TD;
-        R((R)) --> A((A));
-        R --> B((B));
-        R --> C((C));
-        A --> D((D));
-        B --> A;
-        B --> D;
-        B --> E((E));
-        C --> F((F));
-        C --> G((G));
-        D --> L((L));
-        E --> H((H));
-        F --> I((I));
-        G --> I;
-        G --> J((J));
-        H --> E;
-        H --> K((K));
-        I --> K;
-        J --> I;
-        K --> R;
-        K --> I;
-        L --> H;
-      </div>
+  <div class="mermaid">
+  graph TD;
+    R((R)) --> A((A));
+    R --> B((B));
+    R --> C((C));
+    A --> D((D));
+    B --> A;
+    B --> D;
+    B --> E((E));
+    C --> F((F));
+    C --> G((G));
+    D --> L((L));
+    E --> H((H));
+    F --> I((I));
+    G --> I;
+    G --> J((J));
+    H --> E;
+    H --> K((K));
+    I --> K;
+    J --> I;
+    K --> R;
+    K --> I;
+    L --> H;
+  </div>
 
-      Fig.2. Dominator tree of flowgraph in Fig.1
+  Fig.2. Dominator tree of flowgraph in Fig.1
 
-      <div class="mermaid">
-      graph TD;
-        R((R)) --> I((I));
-        R --> K((K));
-        R --> C((C));
-        C --> F((F));
-        C --> G((G));
-        G --> J((J));
-        R --> H((H));
-        R --> E((E));
-        R --> A((A));
-        R --> D((D));
-        D --> L((L));
-        R --> B((B));
-      </div>
+  <div class="mermaid">
+  graph TD;
+    R((R)) --> I((I));
+    R --> K((K));
+    R --> C((C));
+    C --> F((F));
+    C --> G((G));
+    G --> J((J));
+    R --> H((H));
+    R --> E((E));
+    R --> A((A));
+    R --> D((D));
+    D --> L((L));
+    R --> B((B));
+  </div>
 
 - Every vertex is an ancestor and a descendant of itself.[^3]
 
@@ -107,12 +107,12 @@ mermaid: true
 
 - COROLLARY 1. Let $$w \ne r$$ and let $$u$$ be a vertex for which $$sdom(u)$$ is minimum among vertices $$u$$ satisfying $$sdom(w) \xrightarrow{+} u \xrightarrow{*} w$$. Then
 
-      $$
-      idom(w) = \begin{cases}
-        sdom(w) &\text{if } sdom(w) = sdom(u), \\
-        idom(u) &\text{} otherwise.
-      \end{cases}
-      $$
+  $$
+  idom(w) = \begin{cases}
+    sdom(w) &\text{if } sdom(w) = sdom(u), \\
+    idom(u) &\text{} otherwise.
+  \end{cases}
+  $$
 
   PROOF. 如果 $$sdom(u) = sdom(w)$$，则所有的其他可能的 u 取值肯定都满足根据 $$sdom(u) \geqslant sdom(w)$$。根据 THEOREM 2，$$idom(w) = sdom(w)$$。否则直接取 THEOREM 3 的结论。 $$\Box$$
 
@@ -127,108 +127,108 @@ mermaid: true
 
 - 证明的逻辑关系
 
-      Fig.3. 证明逻辑图
+  Fig.3. 证明逻辑图
 
-      <div class="mermaid">
-      graph LR;
-        L1[LEMMA 1] --> L3[LEMMA 3];
-        L2[LEMMA 2] --> L4[LEMMA 4];
-        L3 --> L4;
-        T1(THEOREM 1) --> L5[LEMMA 5];
-        L1 --> T2(THEOREM 2);
-        L4 --> T2;
-        L4 --> T3(THEOREM 3);
-        L5 --> T3;
-        T2 --> C1(COROLLARY 1);
-        style C1 fill:#f9f,stroke:#333,stroke-width:4px;
-        T3 --> C1;
-        L1 --> T4(THEOREM 4);
-        style T4 fill:#f9f,stroke:#333,stroke-width:4px;
-        L3 --> T4;
-      </div>
+  <div class="mermaid">
+  graph LR;
+    L1[LEMMA 1] --> L3[LEMMA 3];
+    L2[LEMMA 2] --> L4[LEMMA 4];
+    L3 --> L4;
+    T1(THEOREM 1) --> L5[LEMMA 5];
+    L1 --> T2(THEOREM 2);
+    L4 --> T2;
+    L4 --> T3(THEOREM 3);
+    L5 --> T3;
+    T2 --> C1(COROLLARY 1);
+    style C1 fill:#f9f,stroke:#333,stroke-width:4px;
+    T3 --> C1;
+    L1 --> T4(THEOREM 4);
+    style T4 fill:#f9f,stroke:#333,stroke-width:4px;
+    L3 --> T4;
+  </div>
 
 ### 算法及其高效实现
 
 - 算法流程
 
-      Step 1. Carry out a depth-first search of the problem graph. Number the vertices from 1 to $$n$$ as they are reached during the search. Initialize the variables used in succeeding steps.
+  Step 1. Carry out a depth-first search of the problem graph. Number the vertices from 1 to $$n$$ as they are reached during the search. Initialize the variables used in succeeding steps.
 
-      Step 2. Compute the semidominators of all vertices by applying *Theorem 4*. Carry out the computation vertex by vertex in decreasing order by number.
+  Step 2. Compute the semidominators of all vertices by applying *Theorem 4*. Carry out the computation vertex by vertex in decreasing order by number.
 
-      Step 3. Implicitly define the immediate dominator of each vertex by applying *Corollary 1*.
+  Step 3. Implicitly define the immediate dominator of each vertex by applying *Corollary 1*.
 
-      Step 4. Explicitly define the immediate dominator of each vertex, carrying out the computation vertex by vertex in increasing order by number.
+  Step 4. Explicitly define the immediate dominator of each vertex, carrying out the computation vertex by vertex in increasing order by number.
 
 - 提前准备的数据结构
 
-      **Input**
+  **Input**
 
-      $$succ(v)$$:      The set of vertices $$w$$ such that $$(v, w)$$ is an edge of the graph.
+  $$succ(v)$$:      The set of vertices $$w$$ such that $$(v, w)$$ is an edge of the graph.
 
-      **Computed**
+  **Computed**
 
-      $$parent(w)$$:    The vertex which is the parent of vertex $$w$$ in the spanning tree generated by the search.
+  $$parent(w)$$:    The vertex which is the parent of vertex $$w$$ in the spanning tree generated by the search.
 
-      $$pred(w)$$:      The set of vertices $$v$$ such that $$(v, w)$$ is an edge of the graph.
+  $$pred(w)$$:      The set of vertices $$v$$ such that $$(v, w)$$ is an edge of the graph.
 
-      $$semi(w)$$:      A number defined as follows:
+  $$semi(w)$$:      A number defined as follows:
 
-        - Before vertex $$w$$ is numbered, $$semi(v) = 0$$.
+    - Before vertex $$w$$ is numbered, $$semi(v) = 0$$.
 
-        - After $$w$$ is numbered but before its semidominator is computed, $$semi(w)$$ is the number of $$w$$.
+    - After $$w$$ is numbered but before its semidominator is computed, $$semi(w)$$ is the number of $$w$$.
 
-        - After the semidominator of $$w$$ is computed, $$semi(w)$$ is the number of the semidominator of $$w$$.
+    - After the semidominator of $$w$$ is computed, $$semi(w)$$ is the number of the semidominator of $$w$$.
 
-      $$vertex(i)$$:    The vertex whose number is $$i$$.
+  $$vertex(i)$$:    The vertex whose number is $$i$$.
 
-      $$bucket(w)$$:    A set of vertices whose semidominator is $$w$$.
+  $$bucket(w)$$:    A set of vertices whose semidominator is $$w$$.
 
-      $$dom(w)$$:       A vertex defined as follows:
+  $$dom(w)$$:       A vertex defined as follows:
 
-        - After step 3, if the semidominator of $$w$$ is its immediate dominator, then $$dom(w)$$ is the immediate dominator of $$w$$. Otherwise $$dom(w)$$ is a vertex $$v$$ whose number is smaller than $$w$$ and whose immediate dominator is also $$w$$'s immediate dominator.
+    - After step 3, if the semidominator of $$w$$ is its immediate dominator, then $$dom(w)$$ is the immediate dominator of $$w$$. Otherwise $$dom(w)$$ is a vertex $$v$$ whose number is smaller than $$w$$ and whose immediate dominator is also $$w$$'s immediate dominator.
 
-        - After step 4, $$dom(w)$$ is the immediate dominator of $$w$$.
+    - After step 4, $$dom(w)$$ is the immediate dominator of $$w$$.
 
 - Step 1
 
-      ```Algol
-      n := 0;
-      for each v in V do pred(v) := NULL; semi(v) := 0 od;
-      DFS(r);
+  ```Algol
+  n := 0;
+  for each v in V do pred(v) := NULL; semi(v) := 0 od;
+  DFS(r);
 
-      procedure DFS(vertex);
-        begin
-          semi(v) := n := n + 1;
-          vertex(n) := v;
-          comment initialize variables for steps 2, 3, and 4;
-          for each w in succ(v) do
-            if semi(w) = 0 then parent(w) := v; DFS(w) fi;
-            add v to pred(w) od
-        end DFS;
-      ```
+  procedure DFS(vertex);
+    begin
+      semi(v) := n := n + 1;
+      vertex(n) := v;
+      comment initialize variables for steps 2, 3, and 4;
+      for each w in succ(v) do
+        if semi(w) = 0 then parent(w) := v; DFS(w) fi;
+        add v to pred(w) od
+    end DFS;
+  ```
 
 - Step 2 and 3
 
-      ```Algol
-      comment initialize variables;
-      for i := n by -1 until 2 do
-        w := vertex(i);
+  ```Algol
+  comment initialize variables;
+  for i := n by -1 until 2 do
+    w := vertex(i);
 
-        Step2:
-        for each v in pred(w) do
-          u := EVAL(v); if semi(u) < semi(w) then semi(w) := semi(u) fi od;
-        add w to bucket(vertex(semi(w)));
-        LINK(parent(w), w);
+    Step2:
+    for each v in pred(w) do
+      u := EVAL(v); if semi(u) < semi(w) then semi(w) := semi(u) fi od;
+    add w to bucket(vertex(semi(w)));
+    LINK(parent(w), w);
 
-        step3:
-        for each v in bucket(parent(w)) do
-          delete v from bucket(parent(w));
-          u := EVAL(v);
-          dom(v) := if semi(u) < semi(v) then u
-                    else parent(w) fi
-          od
-        od;
-      ```
+    step3:
+    for each v in bucket(parent(w)) do
+      delete v from bucket(parent(w));
+      u := EVAL(v);
+      dom(v) := if semi(u) < semi(v) then u
+                else parent(w) fi
+      od
+    od;
+  ```
 
   计算 $$sdom$$ 和隐式计算 $$idom$$ 是在一个节点的处理过程中一并进行的，而节点处理顺序根据逆先序进行。这里有两个操作，用于构建一个 $$forest$$，并从中提取信息，这个 $$forest$$ 由图中的节点和满足 $$\{(parent(w), w) \mid w$$ has been processed$$\}$$ 的边构成：
 
@@ -242,15 +242,15 @@ mermaid: true
 
 - Step 4
 
-      ```Algol
-      for i := 2 until n do
-        w := vertex(i);
-        if dom(w) != vertex(semi(w)) then dom(w) := dom(dom(w)) fi;
-        od
-      dom(r) := 0;
-      ```
+  ```Algol
+  for i := 2 until n do
+    w := vertex(i);
+    if dom(w) != vertex(semi(w)) then dom(w) := dom(dom(w)) fi;
+    od
+  dom(r) := 0;
+  ```
 
-      从小到大遍历是因为*Step 3*中 $$u < v$$。
+  从小到大遍历是因为*Step 3*中 $$u < v$$。
 
 - 例子
 
@@ -266,19 +266,19 @@ mermaid: true
 
   To carry out $$LINK(v, w)$$, the algorithm assigns $$ancestor(w) := v$$.
 
-      ```Algol
-      procedure EVAL(v);
-        if ancestor(v) = 0 then EVAL := v
-          else COMPRESS(v); EVAL := label(v) fi;
+  ```Algol
+  procedure EVAL(v);
+    if ancestor(v) = 0 then EVAL := v
+      else COMPRESS(v); EVAL := label(v) fi;
 
-      procedure COMPRESS(v);
-        comment this procedure assumes ancestor(v) != 0;
-        if ancestor(ancestor(v)) != 0 then
-          COMPRESS(ancestor(v));
-          if semi(label(ancestor(v))) < semi(label(v)) then
-            label(v) := label(ancestor(v)) fi;
-          ancestor(v) := ancestor(ancestor(v)) fi;
-      ```
+  procedure COMPRESS(v);
+    comment this procedure assumes ancestor(v) != 0;
+    if ancestor(ancestor(v)) != 0 then
+      COMPRESS(ancestor(v));
+      if semi(label(ancestor(v))) < semi(label(v)) then
+        label(v) := label(ancestor(v)) fi;
+      ancestor(v) := ancestor(ancestor(v)) fi;
+  ```
 
   复杂实现使用了*path compression on balanced trees*[^6] 的算法，让 $$LINK$$ 操作构造了平衡树，$$EVAL$$ 操作不变，从而让整个算法的执行速度有大幅提高。细节可以参考论文中的 1、2、5 小结。
 
@@ -304,36 +304,36 @@ mermaid: true
 
   改进的算法还需要引入另外两个数据结构 $$size$$ 和 $$child$$，$$size(v)$$ 表示当前子树 $$root$$ 节点 $$v$$ 的子孙节点个数，$$child(v)$$ 表示 $$v$$ 的某个是子树 $$root$$ 的子节点。那么在 $$UPDATE$$ 操作中，必须要保持子树 $$root$$ 节点的 $$\odot$$ 关系，所以做如下修改：
 
-      ```Algol
-      procedure UPDATE(r, x),
-        begin
-          comment this procedure assumes size(O) = 0 and label(O) = infinite,
-          label(r) = max (x, label(r)};
-          if label(r) > label(child(r)) do
-            rl := child(r),
-            while label(r) > label(chlld(r1)) do
-              if size(rl) + size(child(child(r1))) >= 2* stze(child(rl)) then
-                parent(child(r1)) := rl, child(r1) = child(child(r1))
-              else size(child(r1)) = size(r1);
-                rl := parent(r1) = child(r1) fi od;
-            label(r1) = label(r), child(r) = rl fi
-          end UPDATE
-      ```
+  ```Algol
+  procedure UPDATE(r, x),
+    begin
+      comment this procedure assumes size(O) = 0 and label(O) = infinite,
+      label(r) = max (x, label(r)};
+      if label(r) > label(child(r)) do
+        rl := child(r),
+        while label(r) > label(chlld(r1)) do
+          if size(rl) + size(child(child(r1))) >= 2* stze(child(rl)) then
+            parent(child(r1)) := rl, child(r1) = child(child(r1))
+          else size(child(r1)) = size(r1);
+            rl := parent(r1) = child(r1) fi od;
+        label(r1) = label(r), child(r) = rl fi
+      end UPDATE
+  ```
 
   通过合并 $$root$$ 节点小于 $$UPDATE$$ 后的 $$v$$ 的子树来保证子树 $$root$$ 节点单调性。设 $$subsize$$ 为一个子树的节点数，可以通过 $$subsize(r_l) = size(r_1) - size(child(r_1)) \geqslant size(chiid(r_l)) - size(child(child(r_1))) = subsize(child(r_l))$$ 来判断子树合并的时候应该由谁做为父节点，以保证合并生成的新子树的相对平衡。
 
   接下来利用 $$UPDATE$$ 操作来实现 $$LINK(v, w)$$。其中 $$v = r_0, r_1, \ldots, r_k，w = s_0, s_1, \ldots, s_l$$。首先先进行 $$UPDATE(w, label(v))$$，这样能确保 $$label(v) \preccurlyeq label(w)$$，然后判断 $$v$$ 和 $$w$$ 的 $$size$$ 大小，合并 $$size$$ 小的路径上的所有子树到 $$size$$ 大的树的第一个子树中。由于 $$EVAL$$ 操作不变，而作用域变成了子树范围，所以速度就能提高。效果见 Fig 7。
 
-      ```Algol
-      procedure LINK(v, w),
-        begin
-          UPDATE(w, label(v)),
-          size(v) := size(v) + size(w);
-          s = w;
-          if size(v) < 2 * size(w) then s <-> child(v) fi;
-          while s != 0 do parent(s) = v; s = child(s) od
-        end LINK;
-      ```
+  ```Algol
+  procedure LINK(v, w),
+    begin
+      UPDATE(w, label(v)),
+      size(v) := size(v) + size(w);
+      s = w;
+      if size(v) < 2 * size(w) then s <-> child(v) fi;
+      while s != 0 do parent(s) = v; s = child(s) od
+    end LINK;
+  ```
 
   Fig. 7 (a) $$size(r_0) \geqslant size(s_0)$$; (b) $$size(r_0) < size(s_0)$$
 
@@ -341,24 +341,24 @@ mermaid: true
 
   把这个算法套用到求 $$sdom$$ 的算法中，$$\odot(x) = min\{semi(label(x_i)) \mid r = x_0, x_1, \ldots, x_j = x, 0 \leqslant i \leqslant j\}$$，得到新的 $$LINK$$ 操作如下：
 
-      ```Algol
-      procedure LINK(v, w);
-        begin
-          comment this procedure assumes for convenience that size(O) = label(O) = semi(O) = 0;
-          s: = w;
-          while semi(label(w)) < semi(label(child(s))) do
-            if size(s) + size(child(child(s))) >= 2 * size(child(s)) then
-              parent(child(s)) := s; child(s) := child(child(s))
-            else size(child(s)) := size(s);
-              s := parent(s) := child(s) fi od;
-          label(s) := label(w);
-          size(v) := size(v) + size(w);
-          if size(v) < 2 * size(w) then s, child(v) := child(v), s fi;
-          while s != 0 do parent(s) := v; s := child(s) od
-        end LINK;
-      ```
+  ```Algol
+  procedure LINK(v, w);
+    begin
+      comment this procedure assumes for convenience that size(O) = label(O) = semi(O) = 0;
+      s: = w;
+      while semi(label(w)) < semi(label(child(s))) do
+        if size(s) + size(child(child(s))) >= 2 * size(child(s)) then
+          parent(child(s)) := s; child(s) := child(child(s))
+        else size(child(s)) := size(s);
+          s := parent(s) := child(s) fi od;
+      label(s) := label(w);
+      size(v) := size(v) + size(w);
+      if size(v) < 2 * size(w) then s, child(v) := child(v), s fi;
+      while s != 0 do parent(s) := v; s := child(s) od
+    end LINK;
+  ```
 
-      这里把 $$w$$ 和 $$v$$ 的 UPDATE 操作延后了一下。
+  这里把 $$w$$ 和 $$v$$ 的 UPDATE 操作延后了一下。
 
 - Hotspot(C.Click) 的实现
 
