@@ -6,7 +6,7 @@ description: git 配置
 keywords: git, 版本管理
 ---
 
-### .gitconfig 的个人配置，将不断更新
+## .gitconfig 的个人配置，将不断更新
 
 ```shell
 [user]
@@ -24,9 +24,9 @@ keywords: git, 版本管理
         sslVerify = false
 ```
 
-### git 操作笔记
+## git 操作笔记
 
-#### 修改远程仓库
+### 修改远程仓库
 
 - 添加远程仓库
 
@@ -40,17 +40,17 @@ keywords: git, 版本管理
 
   `git remote rm repository_name`
 
-#### 本地文件修改
+### 本地文件修改
 
 - 重命名文件
 
   `git mv old_name new_name`
 
-#### 使用镜像加速 git clone 和 git pull
+### 使用镜像加速 git clone 和 git pull
 
 使用`github.com.cnpmjs.org`替换`github.com`
 
-#### 制作 patch
+### 制作 patch
 
 - 如果修改尚未提交
 
@@ -78,13 +78,13 @@ keywords: git, 版本管理
 
   这里的 1 代表生成从 commit_id 起往前 1 个提交对应的 patch，也可以生成多个提交对应的 patch
 
-#### 打 patch
+### 打 patch
 
   ```shell
   git apply patch_name.patch
   ```
 
-#### 查看某次提交
+### 查看某次提交
 
 - 查询 commit ID
 
@@ -112,7 +112,7 @@ keywords: git, 版本管理
     git show commitId fileName
     ```
 
-#### 从 github 上下载某次 commit 对应的 patch
+### 从 github 上下载某次 commit 对应的 patch
 
 - 首先获取某次 commit 的 ID
 - 然后修改 commit 的 URL
@@ -120,3 +120,7 @@ keywords: git, 版本管理
   ```
   http://github/com/foo/bar/commit/${ID}.patch/
   ```
+
+### 合并 commit
+
+"你好"
