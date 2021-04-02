@@ -1,0 +1,13 @@
+[user]
+	email = 997938339@qq.com
+	name = miaozhuojun
+[core]
+	editor = vim
+	quotepath = false
+[alias]
+	st = status
+	br = branch
+	co = checkout
+	lg = log --graph --pretty=oneline --abbrev-commit
+[http]
+        sslVerify = false

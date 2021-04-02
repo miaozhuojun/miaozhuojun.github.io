@@ -8,21 +8,7 @@ keywords: git, 版本管理
 
 ## .gitconfig 的个人配置，将不断更新
 
-```shell
-[user]
-        email = mouzhuojun@huawei.com
-        name = miaozhuojun
-[alias]
-        st = status
-        br = branch
-        co = checkout
-        lg = log --graph --pretty=oneline --abbrev-commit
-[core]
-        editor = vim
-        quotepath = false
-[http]
-        sslVerify = false
-```
+[mygitconfig](mygitconfig)
 
 ## git 操作笔记
 
