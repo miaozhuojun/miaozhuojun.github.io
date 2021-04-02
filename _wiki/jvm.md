@@ -6,15 +6,23 @@ description: JVM 相关
 keywords: JVM，调测，选项
 ---
 
-### 使用的编译模式
+## 运行时选项
 
-- 纯解释执行
+### 纯解释执行
 
-  ```
-  -Xint
-  ```
+```
+-Xint
+```
 
-### 编译 JDK
+### `PrintCompilation`选项
+
+请参考 [About PrintComiplation](https://link.zhihu.com/?target=https%3A//gist.github.com/rednaxelafx/1165804%23file-notes-md)
+
+### `PrintAssembly`选项
+
+请参考 [PrintAssembly](ihttps://wiki.openjdk.java.net/display/HotSpot/PrintAssembly)
+
+## 编译 JDK
 
 - 构建可调试版本
 
@@ -23,7 +31,7 @@ keywords: JVM，调测，选项
   make images CONF=fastdebug
   ```
 
-### 基本测试
+## 基本测试
 
 - 在 configure 前指 jtreg
 
@@ -35,8 +43,9 @@ keywords: JVM，调测，选项
   make test TEST="tier1"
   ```
 
-### JVM 字节码
+## JVM 字节码
 
 - 字节码指令手册
 
   [Chapter 6. The Java Virtual Machine Instruction Set](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html)
+
