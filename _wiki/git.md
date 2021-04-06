@@ -8,7 +8,7 @@ keywords: git, 版本管理
 
 ## .gitconfig 的个人配置，将不断更新
 
-[mygitconfig](/_wiki/mygitconfig)
+[mygitconfig](../mygitconfig)
 
 ## git 操作笔记
 
