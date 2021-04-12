@@ -256,7 +256,7 @@ mermaid: true
     id3 --> id5(Stub);
     id4 --> id5(Stub);
     id5 -.-> id6(libopenblas.so);
-    id6 - link -> id7(BLAS implementation);
+    id6 -->|link| id7(BLAS implementation);
   </div>
 
 - OpenBLAS 采用 BSD 开源 license，可以放心使用
