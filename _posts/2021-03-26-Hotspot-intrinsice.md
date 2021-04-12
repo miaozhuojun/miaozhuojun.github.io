@@ -12,15 +12,15 @@ mermaid: true
 
 - 背景
 - Hotspot 中的 intrinsic method
-- 为 BLAS 算子创建 intrinsic method
+- 为 BLAS 算子创建 intrinsic
 
 ## 背景 [^1]
 
 ### 什么是 intrinsic method？
 
-- 在编译器领域，用某种编程语言编写的某个函数在转换成机器指令的过程中被编译器**特殊**处理了，那么这样的函数称为 intrinsic method。
-- 这里的特殊处理并不是就编译优化而言的，而是直接用一组**预先生成好的指令（或者是 IR）**替换目标函数原本的实现。
-- 这样替换可以带来收益的主要原因是预先生成好的指令比编译器编译生成的指令更优。
+- 在编译器领域，用某种编程语言编写的某个函数在转换成机器指令的过程中被编译器**特殊**处理了，这样的函数称为 intrinsic method。
+- 这里的特殊处理并不是就编译优化而言的，通常是用一组**预先生成好**的指令（或者是 IR）替换目标函数原本的实现。
+- 这种替换可以带来收益的主要原因是预先生成好的指令比编译器编译生成的指令更优。
 
 ### 静态编译器中的 intrinsic method
 
@@ -36,15 +36,15 @@ mermaid: true
 
 ### JVM 中的 intrinsic mehtod
 
-- 不同 JVM 实现间都有所不同
+- 多样性
 
   - 不能假设某个函数在所有 JVM 中都实现了 intrinsic
-  - intrinsic 的实现可以放到解释器、C1 或 C2
+  - Hotspot 中的 intrinsic 可以通过解释器、C1 或 C2 实现
 
 - 兼容性
 
-  - intrinsic 版本和字节码版本的函数行为应该没有区别
-  - 如果 intrinsic 不能启动，应该可以回退到字节码版本执行
+  - intrinsic 版本和字节码版本的函数行为必须一致
+  - 如果 intrinsic 不能执行，必须可以回退到字节码版本执行
 
 - 可靠性
 
@@ -74,7 +74,7 @@ mermaid: true
 - 特殊的内部函数
 
   - 为了实现特殊的语义
-  - 从而可以让 JDK core library 用 Java 实现更多的 API
+  - 从而可以使用 Java 语言实现更多的 JDK core library API
 
 ### 实现 intrinsic
 
@@ -120,15 +120,19 @@ public class Foo {
 }
 ```
 
-java -XX:+UnlockDiagnosticVMOptions -XX:CompileCommand='exclude,Foo,main' **-XX:+PrintCompilation[^2] -XX:+PrintInlining** Foo
+- 输出
 
-CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThread(0 bytes)   (static)### Excluding compile: static Foo::main50    2             Foo::bar (4 bytes)@ 0   **java.lang.Thread::currentThread(0 bytes)   (intrinsic)**
+  java -XX:+UnlockDiagnosticVMOptions -XX:CompileCommand='exclude,Foo,main' -XX:+PrintCompilation[^2] -XX:+PrintInlining Foo
 
-## 为 BLAS API 创建 intrinsic method
+```shell
+CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThread(0 bytes)   (static)### Excluding compile: static Foo::main50    2             Foo::bar (4 bytes)@ 0   java.lang.Thread::currentThread(0 bytes)   (intrinsic)
+```
+
+## 为 BLAS API 创建 intrinsic
 
 ### BLAS 简介
 
-- BLAS（Basic Linear Algebra Subprograms）是一个 API**标准**，用以规范发布基础线性代数操作的数值库。该程序集最初发布于 1979 年，并用于创建更大的数值程序包（如 LAPACK）。在**高性能计算**领域，BLAS 被广泛使用。例如，LINPACK 的运算成绩很大程度上取决于 BLAS 中子程序 DGEMM 的表现。为提高性能，各软硬件厂商则针对其产品对 BLAS 接口实现进行**高度优化**。（维基百科）
+- BLAS（Basic Linear Algebra Subprograms）是一个 API**标准**，用以规范发布基础线性代数操作的数值库。该程序集最初发布于 **1979** 年，并用于创建更大的数值程序包（如 LAPACK）。在高性能计算领域，BLAS 被广泛使用。例如，LINPACK 的运算成绩很大程度上取决于 BLAS 中子程序 DGEMM 的表现。为提高性能，x 许多软硬件厂商都有专门的针对其产品的高性能 BLAS 实现。（维基百科）
 
 - BLAS 级别
 
@@ -148,7 +152,7 @@ CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThr
 
   - Netlib BLAS [^3]
 
-    官方参考实现，使用 Fortran 77 编码
+    官方实现，使用 Fortran 77 语言编码
 
   - ACML
 
@@ -186,6 +190,10 @@ CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThr
 
     华为 BLAS 实现，基于 OpenBLAS
 
+  - APL
+
+    ARM 公司的 BLAS 实现，有商业版本和免费版本两种
+
 ### 在 Hotspot 中 intrinsify BLAS 函数的动机
 
 - 大数据场景中有部分 Spark 程序的热点集中在 BLAS API 中，比如：DDOT、DGEMV、DGEMM 等
@@ -205,7 +213,7 @@ CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThr
   </div>
 
 - Netlib BLAS 的算法实现没有经过太多优化，存在从算法层面提升性能的空间
-- 即使使用了第三法的 BLAS 库，算法层面虽有优化，但还是存在 JNI 的开销，在某些数据模型下影响较大
+- 即使使用了第三方的 BLAS 库，算法层面得到优化，但还是存在 JNI 的开销，在某些数据模型下影响较大
 
 ### 如何实现 BLAS API ？
 
@@ -214,18 +222,18 @@ CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThr
 - [APL](https://www.arm.com/products/development-tools/server-and-hpc/allinea-studio/performance-libraries)：ARM 公司出品的商业软件
 - [Netlib BLAS](http://www.netlib.org/blas/)：没有做过深度优化，性能平平
 - [OpenBLAS](http://www.openblas.net/)：做了大量算法和体系结构方面的优化，性能优秀 [^4]
+- 我们自己实现的 BLAS API：性能表现明显没有好于 OpenBLAS，且未经过严格测试和长期使用，可靠性存疑
 
 通过分析 [OpenBLAS](https://github.com/xianyi/OpenBLAS) 源码，并依据相关论文 [^5][^6] 中的性能比对结果可以看出使用 OpenBLAS 的实现似乎是一个不错的选择。
 
 ![](/images/posts/2021-03-26-Hotspot-intrinsice/gemm_performance.png)
 
-我们自己实现的 BLAS API 性能表现明显没有好于 OpenBLAS，且未经过严格测试和长期使用，可靠性存疑。
 
 综上，我们选择 OpenBLAS 作为 intrinsice 的实现来源。
 
 ### 实现 BLAS intrinsic method
 
-在开始实现 intrinsic method 前，我们似乎还有点问题没有解决。
+在开始实现 intrinsic method 前，我们似乎还有几个问题没有解决。
 
 #### 为什么 JVM 没有 intrinsify 第三方的 API ？
 
@@ -273,19 +281,19 @@ CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThr
 
 - 函数实现
 
-  - Netlib BLAS 由 Fortran 编写 [^8]，由于其存在目的是为了树立参考标准，所以并**没有做深度优化**，其对应字节码版本由 F2j 工具 [^9] 将 Fortran 程序转化而来，所以从算法层面看 Netlib native BLAS 和 F2j BLAS 是完全一样的。
+  - Netlib BLAS 由 Fortran 编写，由于其存在目的是为了树立参考标准，所以并**没有做深度优化**，其对应字节码版本由 F2j 工具 [^8] 将 Fortran 程序转化而来，所以从算法层面看 Netlib native BLAS 和 F2j BLAS 是完全一样的。
 
     - 如果你有深入思考和精心设计，是可以通过算法层面的优化提升性能的
 
-  - 第三方 BLAS 库的实现里最著名的可能就要数根据 Goto 关于 GEMM 的论文 [^5][^6] 实现的 OpenBLAS(GotoBLAS) DGEMM[^7]，从中可以领会到**深入思考**和**精心设计**的真正含义。
+  - 第三方 BLAS 库的实现里最著名的可能要数根据 Goto 关于 GEMM 的论文 [^5][^6] 实现的 OpenBLAS(GotoBLAS) DGEMM[^7]，从中可以领会到**深入思考**和**精心设计**的真正含义。
 
 #### C2 intrinsic 实现步骤
 
-在 C2 中添加 intrinsic 并不是一个简单的过程，所以下面每一步完成后最好编译一下，以节省调试时间。[^8]
+在 C2 中添加 intrinsic 并不是一个简单的过程，所以下面每一步完成后最好编译一下，以节省调试时间。[^9]
 
 ##### 添加选项开关
 
-目前 Hotshot 中的 intrinsic 一般都有自己对应的使能开关，另外为了方便使用和调试，有必要加入一个专门的选项来控制 BLAS intrinsic 的开关。代码位于 hotspot/src/share/vm/runtime/globals.hpp 中：
+目前 Hotshot 中的 intrinsic 一般都有自己对应的开关，另外为了方便使用和调试，有必要加入一个专门的选项来控制 BLAS intrinsic 的开关。代码位于 hotspot/src/share/vm/runtime/globals.hpp 中：
 
 ```cpp
 #define RUNTIME_FLAGS(develop, develop_pd, product, product_pd, diagnostic, experimental, notproduct, manageable, product_rw, lp64_product) \
@@ -305,11 +313,12 @@ void VM_Version::initialize() {
   }
 
   // ...
+}
 ```
 
 ##### 准备 DGEMM 的函数实现
 
-由于前面说过 DGEMM 的实现来自 OpenBLAS，所以我们只要在 JVM 启动时动态加载 OpenBLAS 库就能获取对应的函数实现和函数入口。下面给出 hotspot/src/cpu/aarch64/vm/stubGenerator_aarch64.cpp 中加载函数的实现和调用：
+由于前面说过 DGEMM 的实现来自 OpenBLAS，所以我们只要在 JVM 启动时动态加载 OpenBLAS 库就能获取对应的函数入口。下面给出 hotspot/src/cpu/aarch64/vm/stubGenerator_aarch64.cpp 中加载函数的实现和调用：
 
 ```cpp
 address load_BLAS_library() {
@@ -339,7 +348,7 @@ void generate_initial() {
 }
 ```
 
-请注意，这里将动态库加载的操作放在了 generate_initial 而不是 generate_all 中，因为 Hotspot 在初始化时 generate_initial 位于 interpreter_init 之前，将动态库加载操作放在 generate_initial 中可以保证即使要做 interpreter intrinsic 也能正确获取动态库。
+请注意，这里将动态库加载的操作放在了 generate_initial 而不是 generate_all 中，因为在初始化 Hotspot 时 generate_initial 先于 interpreter_init，将动态库加载操作放在 generate_initial 中可以保证 interpreter 也能正确获取动态库。
 
 ##### 定义 intrinsic
 
@@ -357,13 +366,13 @@ public final class Dgemm {
 }
 ```
 
-然后，让我们来到文件 hotspot/src/share/vm/classfile/vmSymbols.hpp 中，这里定义了 Hotspot 里所有的 intrinsic。我们只需要添加如下定义即可在 Hotspot 内部识别出该方法：
+然后，让我们来到文件 hotspot/src/share/vm/classfile/vmSymbols.hpp 中，这里定义了 Hotspot 里所有的 intrinsic。我们只需要添加如下定义，之后就可以在 Hotspot 内部以_f2jblas_dgemm 为 ID 识别 dgemm 了：
 
 ```cpp
 do_class(org_netlib_blas_dgemm, "org/netlib/blas/Dgemm") \
 do_name(dgemm_name, "dgemm") \
 do_signature(dgemm_signature, "(Ljava/lang/String;Ljava/lang/String;IIID[DII[DIID[DII)V") \
-do_intrinsic(_f2jbla_dgemm, org_netlib_blas_dgemm, dgemm_name, dgemm_signature, F_S) \
+do_intrinsic(_f2jblas_dgemm, org_netlib_blas_dgemm, dgemm_name, dgemm_signature, F_S) \
 ```
 
 ##### 为 intrinsic 生成代码
@@ -408,7 +417,7 @@ void NAME(char *TRANSA, char *TRANSB,
 }
 ```
 
-虽然获取上层调用函数参数和准备调用子函数参数的实现并不是唯一的，但是无论哪种实现都要符合《Procedure Call Standard for the Arm® 64-bit Architecture》[]。
+虽然获取上层调用函数参数和准备调用子函数参数的实现并不是唯一的，但是无论哪种实现都要符合 [《Procedure Call Standard for the Arm® 64-bit Architecture》](https://developer.arm.com/documentation/ihi0055/latest)。
 
 现在我们需要在 hotspot/src/share/vm/runtime/stubRoutines.hpp 中添加一个变量来保存上面这个生成方法的入口地址以及返回这个变量的方法：
 
@@ -438,7 +447,7 @@ void generate_initial() {
 
 ```cpp
 const TypeFunc* OptoRuntime::dgemmF2jBLAS_Type() {
-  // DOUBLE 类型参数占两个
+  // double 类型参数占两个
   int num_args = 15;
   int argcnt = num_args;
   const Type** fields = TypeTuple::fields(argcnt);
@@ -647,7 +656,7 @@ bool vmIntrinsics::should_be_pinned(vmIntrinsics::ID id) {
 ```
 #### Interpreter 实现步骤
 
-相比之下，在解释器中的实现 intrinsic 调用比较直接，因为少了 IR 转换，直接从字节码层面获取参数，并直接使用机器指令调用 intrinsic。
+相比之下，在解释器中实现 intrinsic 调用比较直接，因为少了 IR 转换，所以直接从字节码层面获取参数，并直接使用机器指令调用 intrinsic。
 
 ##### 生成 intrinsic 调用指令
 
@@ -692,7 +701,7 @@ address AbstractInterpreterGenerator::generate_method_entry() {
 }
 ```
 
-需要注意的是，由于这里需要获取 String 类的 offset 信息，而目前 JDK8 的解释器初始化位于 String 类 offset 信息获取前，所以会有问题。在 JDK 高版本中已经对此有了解决方案（[JDK-8243996](https://bugs.openjdk.java.net/browse/JDK-8243996)）。
+需要注意的是，由于这里需要获取 String 类的 offset 信息，而目前 JDK8 的解释器初始化位于 String 类 offset 信息初始化前，所以会有问题。对此， JDK 高版本中已经有了解决方案（[JDK-8243996](https://bugs.openjdk.java.net/browse/JDK-8243996)）。
 
 ##### 注册 intrinsic entry
 
@@ -744,10 +753,10 @@ AbstractInterpreter::MethodKind AbstractInterpreter::method_kind(methodHandle m)
 [^1]: [Intrinsic Methods in HotSpot VM](http://greenteajug.cn/2013/02/23/intrinsic-methods-in-hotspot-vm/)
 [^2]: [About PrintComiplation](https://link.zhihu.com/?target=https%3A//gist.github.com/rednaxelafx/1165804%23file-notes-md)
 [^3]: [Netlib BLAS](http://www.netlib.org/blas/)
-[^4]: [dgemm()](http://www.netlib.org/lapack/explore-html/d1/d54/group__double__blas__level3_gaeda3cbd99c8fb834a60a6412878226e1.html#gaeda3cbd99c8fb834a60a6412878226e1)
-[^5]: [DGEMM Benchmark](http://www.openblas.net/dgemm_snb_1thread.png)
-[^6]: [Anatomy of High-Performance Matrix Multiplication](https://dl.acm.org/doi/10.1145/1356052.1356053)
-[^7]: [High-performance implementation of the level-3 BLAS](https://www.cs.utexas.edu/users/flame/pubs/flawn20.pdf)
-[^8]: [OpenJDK Cookbook, 139-145.](https://book.douban.com/subject/26368287/)
-[^9]: [Procedure Call Standard for the Arm® 64-bit Architecture](https://developer.arm.com/documentation/ihi0055/latest)
+[^4]: [DGEMM Benchmark](http://www.openblas.net/dgemm_snb_1thread.png)
+[^5]: [Anatomy of High-Performance Matrix Multiplication](https://dl.acm.org/doi/10.1145/1356052.1356053)
+[^6]: [High-performance implementation of the level-3 BLAS](https://www.cs.utexas.edu/users/flame/pubs/flawn20.pdf)
+[^7]: [dgemm()](http://www.netlib.org/lapack/explore-html/d1/d54/group__double__blas__level3_gaeda3cbd99c8fb834a60a6412878226e1.html#gaeda3cbd99c8fb834a60a6412878226e1)
+[^8]: [f2j](https://icl.utk.edu/f2j/software/index.html)
+[^9]: [OpenJDK Cookbook, 139-145.](https://book.douban.com/subject/26368287/)
 [^10]: [Missing aarch64 parts of JDK-8236179](https://bugs.openjdk.java.net/browse/JDK-8264171)
