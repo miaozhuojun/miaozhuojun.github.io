@@ -744,7 +744,7 @@ AbstractInterpreter::MethodKind AbstractInterpreter::method_kind(methodHandle m)
 
 #### 性能验证
 
-推荐使用 [JMH](http://openjdk.java.net/projects/code-tools/jmh/) 对 intrinsic 方法进行性能测试。测试对象可以设为三个：字节码 C2 编译版本、JNI 调用本地库版本、intrinsic 版本：
+推荐使用 [JMH](http://openjdk.java.net/projects/code-tools/jmh/) 对 intrinsic 方法进行性能测试。测试对象可以设为三个：字节码 C2 编译版本、JNI 调用本地库版本、intrinsic 版本。可分别测试低维矩阵运算和高维矩阵运算的性能表现。结果如下：
 
 
 ## 参考
