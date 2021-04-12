@@ -226,8 +226,7 @@ mermaid: true
 
 通过分析 [OpenBLAS](https://github.com/xianyi/OpenBLAS) 源码，并依据相关论文 [^5][^6] 中的性能比对结果可以看出使用 OpenBLAS 的实现似乎是一个不错的选择。
 
-![image](/images/posts/2021-03-26-Hotspot-intrinsice/gemm_performance.png)
-
+![image](/images/posts/2021-03-26-Hotspot-intrinsice/dgemm_performance.png)
 
 综上，我们选择 OpenBLAS 作为 intrinsice 的实现来源。
 
