@@ -106,27 +106,27 @@ mermaid: true
 
 - 例子
 
-```java
-public class Foo {
-  private static Object bar() {
-    return Thread.currentThread();
-  }
+  ```java
+  public class Foo {
+    private static Object bar() {
+      return Thread.currentThread();
+    }
 
-  public static void main(String[]args) {
-    while (true) {
-      bar();
+    public static void main(String[]args) {
+      while (true) {
+        bar();
+      }
     }
   }
-}
-```
+  ```
 
 - 输出
 
   java -XX:+UnlockDiagnosticVMOptions -XX:CompileCommand='exclude,Foo,main' -XX:+PrintCompilation[^2] -XX:+PrintInlining Foo
 
-```shell
-CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThread(0 bytes)   (static)### Excluding compile: static Foo::main50    2             Foo::bar (4 bytes)@ 0   java.lang.Thread::currentThread(0 bytes)   (intrinsic)
-```
+  ```shell
+  CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThread(0 bytes)   (static)### Excluding compile: static Foo::main50    2             Foo::bar (4 bytes)@ 0   java.lang.Thread::currentThread(0 bytes)   (intrinsic)
+  ```
 
 ## 为 BLAS API 创建 intrinsic
 
@@ -138,15 +138,15 @@ CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThr
 
   - Level1：矢量 - 矢量运算
 
-    $$y \leftarrow \alphax + y$$
+    $$y \leftarrow \alpha x + y$$
 
   - Level2: 矩阵 - 矢量运算
 
-    $$y \leftarrow \alphaAx + \betay$$
+    $$y \leftarrow \alpha Ax + \beta y$$
 
   - Level3: 矩阵 - 矩阵运算
 
-    $$C \leftarrow \alphaAB + \betaC$$
+    $$C \leftarrow \alpha AB + \beta C$$
 
 - 实现
 
@@ -226,7 +226,7 @@ CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThr
 
 通过分析 [OpenBLAS](https://github.com/xianyi/OpenBLAS) 源码，并依据相关论文 [^5][^6] 中的性能比对结果可以看出使用 OpenBLAS 的实现似乎是一个不错的选择。
 
-![](/images/posts/2021-03-26-Hotspot-intrinsice/gemm_performance.png)
+![image](/images/posts/2021-03-26-Hotspot-intrinsice/gemm_performance.png)
 
 
 综上，我们选择 OpenBLAS 作为 intrinsice 的实现来源。
@@ -250,8 +250,8 @@ CompilerOracle: exclude Foo.main50    1     n       java.lang.Thread::currentThr
   <div class="mermaid">
   graph LR;
     id1(com.github.fommil.netlib.BLAS.dgemm) --> id2(Interpreter);
-    id3 --> id3(C1);
-    id4 --> id4(C2);
+    id1 --> id3(C1);
+    id1 --> id4(C2);
     id2 --> id5(Stub);
     id3 --> id5(Stub);
     id4 --> id5(Stub);
