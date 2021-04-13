@@ -643,7 +643,7 @@ bool GraphBuilder::try_inline_intrinsics(ciMethod* callee) {
 }
 ```
 
-但是仅仅这样C1并不会生成intrinsic指令，原因在于HIR会将use为0的指令优化掉，优化前的HIR如下：
+但是仅仅这样 C1 并不会生成 intrinsic 指令，原因在于 HIR 会将 use 为 0 的指令优化掉，优化前的 HIR 如下：
 
 ```shell
 B1 [0, 0] -> B0 sux: B0
@@ -661,7 +661,7 @@ __bci__use__tid____instr____________________________________
 . 29   0    v19    return
 ```
 
-优化后的HIR：
+优化后的 HIR：
 
 ```shell
 B1 [0, 0] -> B0 sux: B0
@@ -677,7 +677,7 @@ __bci__use__tid____instr____________________________________
 . 29   0    v19    return
 ```
 
-原因在于use计数为0，导致C1优化了这个Call。可以将目标函数需要设置 pinned，然后就能生成intrinsic了。相关代码位于 hotspot/src/share/vm/classfile/vmSymbols.cpp：
+为了使 C1 正确生成 intrinsic，可以将目标函数设置成 pinned。相关代码位于 hotspot/src/share/vm/classfile/vmSymbols.cpp：
 
 ```cpp
 bool vmIntrinsics::should_be_pinned(vmIntrinsics::ID id) {
@@ -775,10 +775,10 @@ AbstractInterpreter::MethodKind AbstractInterpreter::method_kind(methodHandle m)
   - 因为如果计算对象是浮点数，精度会有明显区别
 
 - 从调试角度出发，由于 C2/C1/Interpreter 每种实现都有 generator，只要记录指令生成入口地址，就能 GDB 调试，验证 intrinsic 执行正确性
-- 另外可以利用Hotspot选项，打印生成的Stub指令来判断正确性：
+- 另外可以利用 Hotspot 选项，打印生成的 Stub 指令来判断正确性：
 
   - `-XX:+PrintStubCode`
-  
+
     ```armasm
     StubRoutines::f2jblas_dgemm [0x0000ffff74075b80, 0x0000ffff74075bec[ (108 bytes)
     ;; Entry:
