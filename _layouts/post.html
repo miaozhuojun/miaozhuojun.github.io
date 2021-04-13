@@ -9,7 +9,7 @@ layout: default
 <section class="collection-head small geopattern" data-pattern-id="{{ page.title | truncate: 15, ''}}">
 <div class="container">
   <div class="columns">
-    <div class="column three-fourths">
+    <div class="column four-fifths">
       <div class="collection-title">
         <h1 class="collection-header">{{ page.title }}</h1>
         <div class="collection-info">
@@ -33,7 +33,7 @@ layout: default
         </div>
       </div>
     </div>
-    <div class="column one-fourth mobile-hidden">
+    <div class="column one-fifths mobile-hidden">
       <div class="collection-title">
         {% include sidebar-qrcode.html %}
       </div>
@@ -44,7 +44,7 @@ layout: default
 <!-- / .banner -->
 <section class="container content">
 <div class="columns">
-  <div class="column three-fourths" >
+  <div class="column four-fifths" >
     {% include content-header-ad.html %}
     <article class="article-content markdown-body">
     {{ content }}
@@ -58,7 +58,7 @@ layout: default
       {% include comments.html %}
     </div>
   </div>
-  <div class="column one-fourth">
+  <div class="column one-fifths">
     {% include sidebar-search.html %}
     {% include sidebar-post-nav.html %}
   </div>
