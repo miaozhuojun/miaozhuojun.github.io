@@ -20,7 +20,7 @@ keywords: JVM，调测，选项
 
 ### `PrintAssembly`选项
 
-请参考 [PrintAssembly](ihttps://wiki.openjdk.java.net/display/HotSpot/PrintAssembly)
+请参考 [PrintAssembly](https://wiki.openjdk.java.net/display/HotSpot/PrintAssembly)
 
 ## 编译 JDK
 
