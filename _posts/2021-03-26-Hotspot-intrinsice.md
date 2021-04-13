@@ -643,7 +643,41 @@ bool GraphBuilder::try_inline_intrinsics(ciMethod* callee) {
 }
 ```
 
-另外，需要注意的是，目标函数需要设置 pinned，否则代码生成会不正确。相关代码位于 hotspot/src/share/vm/classfile/vmSymbols.cpp：
+但是仅仅这样C1并不会生成intrinsic指令，原因在于HIR会将use为0的指令优化掉，优化前的HIR如下：
+
+```shell
+B1 [0, 0] -> B0 sux: B0
+empty stack
+inlining depth 0
+__bci__use__tid____instr____________________________________
+. 0    0     21    std entry B0
+
+B0 (SV) [0, 29] pred: B1
+empty stack
+inlining depth 0
+__bci__use__tid____instr____________________________________
+  11   0    i15    0
+  26   0    v18    Dgemm.f2jblas_dgemm(a2, a3, i4, i5, i6, d7, a8, i15, i9, a10, i15, i11, d12, a13, i15, i14)
+. 29   0    v19    return
+```
+
+优化后的HIR：
+
+```shell
+B1 [0, 0] -> B0 sux: B0
+empty stack
+inlining depth 0
+__bci__use__tid____instr____________________________________
+. 0    0     5     std entry B0
+
+B0 (SV) [0, 4] dom B1 pred: B1
+empty stack
+inlining depth 0
+__bci__use__tid____instr____________________________________
+. 29   0    v19    return
+```
+
+原因在于use计数为0，导致C1优化了这个Call。可以将目标函数需要设置 pinned，然后就能生成intrinsic了。相关代码位于 hotspot/src/share/vm/classfile/vmSymbols.cpp：
 
 ```cpp
 bool vmIntrinsics::should_be_pinned(vmIntrinsics::ID id) {
@@ -741,6 +775,42 @@ AbstractInterpreter::MethodKind AbstractInterpreter::method_kind(methodHandle m)
   - 因为如果计算对象是浮点数，精度会有明显区别
 
 - 从调试角度出发，由于 C2/C1/Interpreter 每种实现都有 generator，只要记录指令生成入口地址，就能 GDB 调试，验证 intrinsic 执行正确性
+- 另外可以利用Hotspot选项，打印生成的Stub指令来判断正确性：
+
+  - `-XX:+PrintStubCode`
+  
+    ```armasm
+    StubRoutines::f2jblas_dgemm [0x0000ffff74075b80, 0x0000ffff74075bec[ (108 bytes)
+    ;; Entry:
+    0x0000ffff74075b80: sub       sp, sp, #0x60
+    0x0000ffff74075b84: stp       x29, x30, [sp, #48]
+    0x0000ffff74075b88: add       x29, sp, #0x30
+    ;; 0xFFFF81BA40A8
+    0x0000ffff74075b8c: mov       x8, #0x40a8                     // #16552
+    0x0000ffff74075b90: movk      x8, #0x81ba, lsl #16
+    0x0000ffff74075b94: movk      x8, #0xffff, lsl #32
+    0x0000ffff74075b98: ldr       x9, [x29, #56]
+    0x0000ffff74075b9c: stp       w3, w2, [x29, #40]
+    0x0000ffff74075ba0: add       x2, x29, #0x10
+    0x0000ffff74075ba4: stp       w6, w4, [x29, #32]
+    0x0000ffff74075ba8: add       x3, x29, #0x40
+    0x0000ffff74075bac: stp       x2, x9, [sp, #16]
+    0x0000ffff74075bb0: add       x2, x29, #0x30
+    0x0000ffff74075bb4: str       x7, [sp]
+    0x0000ffff74075bb8: mov       x6, x5
+    0x0000ffff74075bbc: str       x3, [sp, #32]
+    0x0000ffff74075bc0: add       x5, x29, #0x18
+    0x0000ffff74075bc4: str       x2, [sp, #8]
+    0x0000ffff74075bc8: add       x4, x29, #0x24
+    0x0000ffff74075bcc: stp       d1, d0, [x29, #16]
+    0x0000ffff74075bd0: add       x7, x29, #0x20
+    0x0000ffff74075bd4: add       x3, x29, #0x28
+    0x0000ffff74075bd8: add       x2, x29, #0x2c
+    0x0000ffff74075bdc: blr       x8
+    0x0000ffff74075be0: ldp       x29, x30, [sp, #48]
+    0x0000ffff74075be4: add       sp, sp, #0x60
+    0x0000ffff74075be8: ret
+    ```
 
 #### 性能验证
 
@@ -748,84 +818,31 @@ AbstractInterpreter::MethodKind AbstractInterpreter::method_kind(methodHandle m)
 
 低维结果如下：
 
-Benchmark                       (p)  (transa)  (transb)   Mode  Cnt        Score       Error  Units
-Dgemm.BLAS_dgemm_f2j              7         N         N  thrpt   10  1316400.761 ±  3432.259  ops/s
-Dgemm.BLAS_dgemm_f2j              7         N         T  thrpt   10  1363455.067 ±  1682.072  ops/s
-Dgemm.BLAS_dgemm_f2j              7         T         N  thrpt   10  1333698.452 ±  4834.238  ops/s
-Dgemm.BLAS_dgemm_f2j              7         T         T  thrpt   10  1219287.474 ±  1328.147  ops/s
-Dgemm.BLAS_dgemm_f2j              8         N         N  thrpt   10   965791.524 ±  1516.582  ops/s
-Dgemm.BLAS_dgemm_f2j              8         N         T  thrpt   10  1097247.832 ±  1566.370  ops/s
-Dgemm.BLAS_dgemm_f2j              8         T         N  thrpt   10   964169.009 ±  5845.291  ops/s
-Dgemm.BLAS_dgemm_f2j              8         T         T  thrpt   10   843480.333 ±  2026.312  ops/s
-Dgemm.BLAS_dgemm_f2j              9         N         N  thrpt   10   860861.364 ±  2304.345  ops/s
-Dgemm.BLAS_dgemm_f2j              9         N         T  thrpt   10   886843.295 ±  6335.175  ops/s
-Dgemm.BLAS_dgemm_f2j              9         T         N  thrpt   10   716594.928 ±  1213.976  ops/s
-Dgemm.BLAS_dgemm_f2j              9         T         T  thrpt   10   667044.754 ±   918.306  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    7         N         N  thrpt   10  1390266.322 ±  2943.701  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    7         N         T  thrpt   10  1482623.124 ±  5213.217  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    7         T         N  thrpt   10  1396067.596 ±  2698.878  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    7         T         T  thrpt   10  1450333.420 ±  1839.003  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    8         N         N  thrpt   10  1424826.639 ±  1992.931  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    8         N         T  thrpt   10  1523680.408 ± 26006.056  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    8         T         N  thrpt   10  1531186.093 ±  1305.810  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    8         T         T  thrpt   10  1519507.566 ± 15050.052  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    9         N         N  thrpt   10  1225997.326 ±  2663.439  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    9         N         T  thrpt   10  1272757.614 ±  2532.118  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    9         T         N  thrpt   10  1256352.563 ±  3321.307  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic    9         T         T  thrpt   10  1239578.048 ±  2369.085  ops/s
-Dgemm.BLAS_dgemm_open             7         N         N  thrpt   10   869726.939 ±  4293.571  ops/s
-Dgemm.BLAS_dgemm_open             7         N         T  thrpt   10   908112.990 ±  6811.499  ops/s
-Dgemm.BLAS_dgemm_open             7         T         N  thrpt   10   868695.917 ±  7576.031  ops/s
-Dgemm.BLAS_dgemm_open             7         T         T  thrpt   10   888075.455 ±  3469.233  ops/s
-Dgemm.BLAS_dgemm_open             8         N         N  thrpt   10   894927.360 ±  9968.635  ops/s
-Dgemm.BLAS_dgemm_open             8         N         T  thrpt   10   912822.796 ± 15756.304  ops/s
-Dgemm.BLAS_dgemm_open             8         T         N  thrpt   10   920409.196 ±  5504.995  ops/s
-Dgemm.BLAS_dgemm_open             8         T         T  thrpt   10   908603.738 ±  6176.913  ops/s
-Dgemm.BLAS_dgemm_open             9         N         N  thrpt   10   796290.455 ±  4005.004  ops/s
-Dgemm.BLAS_dgemm_open             9         N         T  thrpt   10   828353.720 ±  3141.242  ops/s
-Dgemm.BLAS_dgemm_open             9         T         N  thrpt   10   813124.303 ±  3528.288  ops/s
-Dgemm.BLAS_dgemm_open             9         T         T  thrpt   10   753267.304 ±  7462.312  ops/s
-
+| Benchmark                        |(p) | (transa)  | (transb)  | Mode  |Cnt  |      Score  |   Error  Units  |
+| ------- | ------- | ------- |------- | -------| ------- | ------- | ------- |
+| Dgemm.BLAS_dgemm_f2j             | 7  |       N   |      N    | thrpt |  10 | 1316400.761 |±3432.259  ops/s |
+| Dgemm.BLAS_dgemm_f2j             | 8  |       N   |      N    |thrpt  | 10  | 965791.524  | ±1516.582  ops/s |
+| Dgemm.BLAS_dgemm_f2j             | 9  |       N   |      N    |thrpt  | 10  | 860861.364 | ±2304.345  ops/s |
+| Dgemm.BLAS_dgemm_f2j_intrinsic   | 7  |       N   |      N    |thrpt  | 10  | 1390266.322 | ±2943.701  ops/s |
+| Dgemm.BLAS_dgemm_f2j_intrinsic   | 8  |       N   |      N    |thrpt  | 10  | 1424826.639 | ±1992.931  ops/s |
+| Dgemm.BLAS_dgemm_f2j_intrinsic   | 9  |       N   |      N    | thrpt |  10 | 1225997.326 | ±2663.439  ops/s |
+| Dgemm.BLAS_dgemm_open            | 7  |       N   |      N    |thrpt  | 10  | 869726.939 | ±4293.571  ops/s |
+| Dgemm.BLAS_dgemm_open            | 8  |       N   |      N    |thrpt  | 10  | 894927.360 | ±9968.635  ops/s |
+| Dgemm.BLAS_dgemm_open            | 9  |       N   |      N    |thrpt  | 10  | 796290.455 | ±4005.004  ops/s |
 
 中高维结果如下：
 
-Benchmark                       (p)  (transa)  (transb)   Mode  Cnt      Score     Error  Units
-Dgemm.BLAS_dgemm_f2j             70         N         N  thrpt   10   2969.096 ±   2.639  ops/s
-Dgemm.BLAS_dgemm_f2j             70         N         T  thrpt   10   2962.132 ±   3.651  ops/s
-Dgemm.BLAS_dgemm_f2j             70         T         N  thrpt   10   1886.298 ±   2.061  ops/s
-Dgemm.BLAS_dgemm_f2j             70         T         T  thrpt   10   1824.687 ±   2.269  ops/s
-Dgemm.BLAS_dgemm_f2j             80         N         N  thrpt   10   2004.466 ±   4.520  ops/s
-Dgemm.BLAS_dgemm_f2j             80         N         T  thrpt   10   1959.903 ±   8.496  ops/s
-Dgemm.BLAS_dgemm_f2j             80         T         N  thrpt   10   1258.188 ±   1.374  ops/s
-Dgemm.BLAS_dgemm_f2j             80         T         T  thrpt   10   1210.599 ±   1.391  ops/s
-Dgemm.BLAS_dgemm_f2j             90         N         N  thrpt   10   1412.052 ±   5.198  ops/s
-Dgemm.BLAS_dgemm_f2j             90         N         T  thrpt   10   1292.426 ±   5.697  ops/s
-Dgemm.BLAS_dgemm_f2j             90         T         N  thrpt   10    886.967 ±   0.850  ops/s
-Dgemm.BLAS_dgemm_f2j             90         T         T  thrpt   10    854.950 ±   1.187  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   70         N         N  thrpt   10  12184.291 ± 382.105  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   70         N         T  thrpt   10  12802.779 ± 261.034  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   70         T         N  thrpt   10  12980.264 ± 224.151  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   70         T         T  thrpt   10  12725.881 ± 258.868  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   80         N         N  thrpt   10  11713.354 ± 299.428  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   80         N         T  thrpt   10  11534.971 ± 231.434  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   80         T         N  thrpt   10  11986.713 ± 390.781  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   80         T         T  thrpt   10  11338.431 ± 169.051  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   90         N         N  thrpt   10  10560.393 ± 317.499  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   90         N         T  thrpt   10   9433.280 ± 509.982  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   90         T         N  thrpt   10  10406.705 ± 564.319  ops/s
-Dgemm.BLAS_dgemm_f2j_intrinsic   90         T         T  thrpt   10  10748.982 ± 241.670  ops/s
-Dgemm.BLAS_dgemm_open            70         N         N  thrpt   10  12549.708 ± 310.946  ops/s
-Dgemm.BLAS_dgemm_open            70         N         T  thrpt   10  12163.470 ± 199.580  ops/s
-Dgemm.BLAS_dgemm_open            70         T         N  thrpt   10  12209.737 ± 266.265  ops/s
-Dgemm.BLAS_dgemm_open            70         T         T  thrpt   10  12381.171 ± 234.857  ops/s
-Dgemm.BLAS_dgemm_open            80         N         N  thrpt   10  11449.780 ± 177.613  ops/s
-Dgemm.BLAS_dgemm_open            80         N         T  thrpt   10  11401.201 ± 275.577  ops/s
-Dgemm.BLAS_dgemm_open            80         T         N  thrpt   10  10149.520 ± 879.403  ops/s
-Dgemm.BLAS_dgemm_open            80         T         T  thrpt   10  11500.657 ± 422.988  ops/s
-Dgemm.BLAS_dgemm_open            90         N         N  thrpt   10  10306.190 ± 150.359  ops/s
-Dgemm.BLAS_dgemm_open            90         N         T  thrpt   10  10626.026 ± 185.481  ops/s
-Dgemm.BLAS_dgemm_open            90         T         N  thrpt   10  10535.367 ± 244.297  ops/s
-Dgemm.BLAS_dgemm_open            90         T         T  thrpt   10  10543.037 ± 277.515  ops/s
+| Benchmark                        |(p) | (transa)  | (transb)  | Mode  |Cnt  |      Score  |   Error  Units  |
+| ------- | ------- | ------- |------- | -------| ------- | ------- | ------- |
+|Dgemm.BLAS_dgemm_f2j |            70 |        N   |      N | thrpt |  10 |  2969.096 |±   2.639 | ops/s|
+|Dgemm.BLAS_dgemm_f2j  |           80  |       N   |      N | thrpt |  10 | 2004.466 | ±   4.520 | ops/s|
+|Dgemm.BLAS_dgemm_f2j      |       90      |   N      |   N  |thrpt  | 10  | 1412.052 |±   5.198 | ops/s|
+|Dgemm.BLAS_dgemm_f2j_intrinsic |  70       |  N      |   N | thrpt |  10  |12184.291 |± 382.105|  ops/s|
+|Dgemm.BLAS_dgemm_f2j_intrinsic  | 80       |  N     |    N | thrpt |  10 | 11713.354 |± 299.428 | ops/s|
+|Dgemm.BLAS_dgemm_f2j_intrinsic  | 90    |     N   |      N | thrpt |  10 | 10560.393 |± 317.499 | ops/s|
+|Dgemm.BLAS_dgemm_open        |    70      |   N    |     N | thrpt |  10 | 12549.708| ± 310.946 | ops/s|
+|Dgemm.BLAS_dgemm_open      |      80      |   N    |     N | thrpt |  10 | 11449.780 |± 177.613 | ops/s|
+|Dgemm.BLAS_dgemm_open         |   90    |     N   |      N | thrpt |  10 | 10306.190 |± 150.359 | ops/s|
 
 ## 参考
 
