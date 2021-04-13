@@ -140,11 +140,11 @@ mermaid: true
 
     $$y \leftarrow \alpha x + y$$
 
-  - Level2: 矩阵 - 矢量运算
+  - Level2：矩阵 - 矢量运算
 
     $$y \leftarrow \alpha Ax + \beta y$$
 
-  - Level3: 矩阵 - 矩阵运算
+  - Level3：矩阵 - 矩阵运算
 
     $$C \leftarrow \alpha AB + \beta C$$
 
