@@ -132,7 +132,7 @@ mermaid: true
 
 ### BLAS 简介
 
-- BLAS（Basic Linear Algebra Subprograms）是一个 API**标准**，用以规范发布基础线性代数操作的数值库。该程序集最初发布于 **1979** 年，并用于创建更大的数值程序包（如 LAPACK）。在高性能计算领域，BLAS 被广泛使用。例如，LINPACK 的运算成绩很大程度上取决于 BLAS 中子程序 DGEMM 的表现。为提高性能，x 许多软硬件厂商都有专门的针对其产品的高性能 BLAS 实现。（维基百科）
+- BLAS（Basic Linear Algebra Subprograms）是一个 API**标准**，用以规范发布基础线性代数操作的数值库。该程序集最初发布于 **1979** 年，并用于创建更大的数值程序包（如 LAPACK）。在高性能计算领域，BLAS 被广泛使用。例如，LINPACK 的运算成绩很大程度上取决于 BLAS 中子程序 DGEMM 的表现。为提高性能，许多软硬件厂商都有专门的针对其产品的高性能 BLAS 实现。（维基百科）
 
 - BLAS 级别
 
