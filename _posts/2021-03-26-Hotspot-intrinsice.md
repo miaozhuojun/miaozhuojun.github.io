@@ -43,7 +43,7 @@ mermaid: true
 
 - 兼容性
 
-  - intrinsic 版本和字节码版本的函数行为必须一致
+  - intrinsic 版本和字节码版本的函数行为基本一致
   - 如果 intrinsic 不能执行，必须可以回退到字节码版本执行
 
 - 可靠性
