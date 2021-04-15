@@ -443,11 +443,8 @@ void generate_initial() {
 实体关系图如下：
 
 <div class="mermaid">
-sequenceDiagram
-    Alice-->>John: Hello John, how are you?
-    John-->>Alice: Great!
-    John-->>Bob: How about you?
-    Bob-->>John: Jolly good!
+classDiagram
+Class09 ..> C2 : Where am i?
 </div>
 
 ##### 添加创建 intrinsic 描述符的函数
