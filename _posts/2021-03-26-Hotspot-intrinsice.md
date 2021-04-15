@@ -444,9 +444,6 @@ void generate_initial() {
 
 <div class="mermaid">
 sequenceDiagram
-    participant Alice
-    participant Bob
-    participant John
     Alice-->>John: Hello John, how are you?
     John-->>Alice: Great!
 </div>
