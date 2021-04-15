@@ -447,28 +447,6 @@ classDiagram
      Animal <|-- Duck : 备注
      Animal -- Fish
      Animal <-- Zebra
-
-     Animal: +int age
-     Animal: +String gender
-     Animal: +isMammal(a~b~ c)
-     Animal: +mate()
-
-     class Duck{
-         +String beakColor
-         +swim()
-         +quack()
-     }
-
-     class Fish{
-         -int sizeInFeet
-         -canEat()
-     }
-
-     class Zebra{
-        <<interface>>
-         +bool is_wild
-         +run()
-     }
 </div>
 
 ##### 添加创建 intrinsic 描述符的函数
