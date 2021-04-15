@@ -440,33 +440,6 @@ void generate_initial() {
 }
 ```
 
-实体关系图如下：
-
-<div class="mermaid">
-classDiagram
-     Animal <|-- Duck : 备注
-     Animal -- Fish
-     Animal <-- Zebra
-     Animal: +int age
-     Animal: +String gender
-     Animal: +isMammal(a~b~ c)
-     Animal: +mate()
-     class Duck {
-         +String beakColor
-         +swim()
-         +quack()
-     }
-     class Fish {
-         -int sizeInFeet
-         -canEat()
-     }
-     class Zebra {
-        <<interface>>
-         +bool is_wild
-         +run()
-     }
-</div>
-
 ##### 添加创建 intrinsic 描述符的函数
 
 为了能在 Ideal Graph 中正确地创建 Call 节点——这个 Call 节点代表了对上述生成代码的调用，需要一个描述 Call 节点所表示函数的入参信息和返回值信息的数据结构，这个数据结构会使用 hotspot/src/share/vm/opto/runtime.cpp 中的对应函数生成：
