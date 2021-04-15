@@ -16,6 +16,15 @@ mermaid: true
 
 ## 背景 [^1]
 
+<div class="mermaid">
+graph LR
+    A --- B
+    B-->C[fa:fa-ban forbidden]
+    B-->D(fa:fa-spinner);
+</div>
+<script src="mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+  
 ### 什么是 intrinsic method？
 
 - 在编译器领域，用某种编程语言编写的某个函数在转换成机器指令的过程中被编译器**特殊**处理了，这样的函数称为 intrinsic method。
