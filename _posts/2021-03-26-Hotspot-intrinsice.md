@@ -449,8 +449,6 @@ sequenceDiagram
     participant John
     Alice-->>John: Hello John, how are you?
     John-->>Alice: Great!
-    John-->>Bob: How about you?
-    Bob-->>John: Jolly good!
 </div>
 
 ##### 添加创建 intrinsic 描述符的函数
