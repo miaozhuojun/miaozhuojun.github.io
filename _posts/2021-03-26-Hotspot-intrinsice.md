@@ -443,10 +443,11 @@ void generate_initial() {
 实体关系图如下：
 
 <div class="mermaid">
-classDiagram
-     Animal <|-- Duck : 备注
-     Animal -- Fish
-     Animal <-- Zebra
+classDiagram;
+     Animal: +int age;
+     Animal: +String gender;
+     Animal: +isMammal(a~b~ c);
+     Animal: +mate();
 </div>
 
 ##### 添加创建 intrinsic 描述符的函数
