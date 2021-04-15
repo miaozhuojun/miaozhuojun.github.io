@@ -374,7 +374,7 @@ do_signature(dgemm_signature, "(Ljava/lang/String;Ljava/lang/String;IIID[DII[DII
 do_intrinsic(_f2jblas_dgemm, org_netlib_blas_dgemm, dgemm_name, dgemm_signature, F_S) \
 ```
 
-##### 为 intrinsic 生成代码
+##### 为 intrinsic 生成 Stub
 
 根据上面的描述，我们只需要生成调用动态库中 dgemm 函数的指令就可以实现该 intrinsic。相关代码位于 hotspot/src/cpu/aarch64/vm/stubGenerator_aarch64.cpp 中：
 
@@ -439,6 +439,37 @@ void generate_initial() {
   }
 }
 ```
+
+实体关系图如下：
+
+<div class="mermaid">
+classDiagram
+     Animal <|-- Duck : 备注
+     Animal -- Fish
+     Animal <-- Zebra
+
+     Animal: +int age
+     Animal: +String gender
+     Animal: +isMammal(a~b~ c)
+     Animal: +mate()
+
+     class Duck{
+         +String beakColor
+         +swim()
+         +quack()
+     }
+
+     class Fish{
+         -int sizeInFeet
+         -canEat()
+     }
+
+     class Zebra{
+        <<interface>>
+         +bool is_wild
+         +run()
+     }
+</div>
 
 ##### 添加创建 intrinsic 描述符的函数
 
