@@ -444,7 +444,7 @@ void generate_initial() {
 
 <div class="mermaid">
 classDiagram
-Class09 ..> C2 : Where am i?
+Class09 ..> C2
 </div>
 
 ##### 添加创建 intrinsic 描述符的函数
