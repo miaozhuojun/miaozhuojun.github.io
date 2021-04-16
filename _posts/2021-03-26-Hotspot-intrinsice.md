@@ -19,7 +19,6 @@ mermaid: true
 <div class="mermaid">
 classDiagram
 Class01 <|-- AveryLongClass : Cool
-<<interface>> Class01
 Class03 *-- Class04
 Class05 o-- Class06
 Class07 .. Class08
