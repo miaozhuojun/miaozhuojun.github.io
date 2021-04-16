@@ -32,11 +32,6 @@ Class01 : size()
 Class01 : int chimp
 Class01 : int gorilla
 Class08 <--> C2: Cool label
-class Class10 {
-  <<service>>
-  int id
-  size()
-}
 </div>
 
 ### 什么是 intrinsic method？
