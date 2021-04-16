@@ -15,7 +15,31 @@ mermaid: true
 - 为 BLAS 算子创建 intrinsic
 
 ## 背景 [^1]
-  
+
+<div class="mermaid">
+classDiagram
+     Animal <|-- Duck : 备注
+     Animal -- Fish
+     Animal <-- Zebra
+     Animal: +int age
+     Animal: +String gender
+     Animal: +mate()
+     class Duck {
+         +String beakColor
+         +swim()
+         +quack()
+     }
+     class Fish {
+         -int sizeInFeet
+         -canEat()
+     }
+     class Zebra {
+        <<interface>>
+         +bool is_wild
+         +run()
+     }
+</div>
+
 ### 什么是 intrinsic method？
 
 - 在编译器领域，用某种编程语言编写的某个函数在转换成机器指令的过程中被编译器**特殊**处理了，这样的函数称为 intrinsic method。
