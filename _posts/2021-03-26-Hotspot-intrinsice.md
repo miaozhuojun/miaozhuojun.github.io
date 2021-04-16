@@ -24,20 +24,6 @@ classDiagram
      Animal: +int age
      Animal: +String gender
      Animal: +mate()
-     class Duck {
-         +String beakColor
-         +swim()
-         +quack()
-     }
-     class Fish {
-         -int sizeInFeet
-         -canEat()
-     }
-     class Zebra {
-        <<interface>>
-         +bool is_wild
-         +run()
-     }
 </div>
 
 ### 什么是 intrinsic method？
