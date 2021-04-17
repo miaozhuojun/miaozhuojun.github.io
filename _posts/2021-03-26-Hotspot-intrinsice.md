@@ -16,23 +16,6 @@ mermaid: true
 
 ## 背景 [^1]
 
-<div class="mermaid">
-classDiagram
-Class01 <|-- AveryLongClass : Cool
-Class03 *-- Class04
-Class05 o-- Class06
-Class07 .. Class08
-Class09 --> C2 : Where am i?
-Class09 --* C3
-Class09 --|> Class07
-Class07 : equals()
-Class07 : Object[] elementData
-Class01 : size()
-Class01 : int chimp
-Class01 : int gorilla
-Class08 <--> C2: Cool label
-</div>
-
 ### 什么是 intrinsic method？
 
 - 在编译器领域，用某种编程语言编写的某个函数在转换成机器指令的过程中被编译器**特殊**处理了，这样的函数称为 intrinsic method。
