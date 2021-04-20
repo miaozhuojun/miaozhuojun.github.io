@@ -22,7 +22,7 @@ mermaid: true
 - 这里的特殊处理并不是就编译优化而言的，通常是用一组**预先生成好**的指令（或者是 IR）替换目标函数原本的实现。
 - 这种替换可以带来收益的主要原因是预先生成好的指令比编译器编译生成的指令更优。
 
-### 静态编译器中的 intrinsic method
+#### 静态编译器中的 intrinsic method
 
 - Microsoft Visual C/C++ Compiler
 
@@ -815,6 +815,12 @@ AbstractInterpreter::MethodKind AbstractInterpreter::method_kind(methodHandle m)
 #### 性能验证
 
 推荐使用 [JMH](http://openjdk.java.net/projects/code-tools/jmh/) 对 intrinsic 方法进行性能测试。测试对象可以设为三个：字节码 C2 编译版本、JNI 调用本地库版本、intrinsic 版本。可分别测试低维矩阵运算和高维矩阵运算的性能表现。
+
+命令如下：
+
+```shell
+java -jar target/xxx.jar -wi <warm times: 10> -i <iterater times: 10> -f <fork times: 1> -jvm <test jvm bin path> -rf <output file type: json> -rff <output file name> Dgemm
+```
 
 低维结果如下：
 
