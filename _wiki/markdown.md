@@ -4,6 +4,8 @@ title: markdown
 categories: markdown
 description: markdown
 keywords: markdown
+mathjax: true
+mermaid: true
 ---
 
 ## 代码插入
@@ -38,3 +40,60 @@ keywords: markdown
 使用 MathJax 解析 LaTeX 数学符号表示，LaTaX 符号表示可以参考：
 
 - [http://mirror.lzu.edu.cn/CTAN/info/symbols/math/maths-symbols.pdf](http://mirror.lzu.edu.cn/CTAN/info/symbols/math/maths-symbols.pdf)
+
+## 如何在博客中使用 mermaid 功能
+
+- 在文章头声明开启 mermaid：`mermaid: true`
+- 关闭 html 压缩功能，防止 mermaid 语法被破坏
+  - 删除 `_layouts/default.html` 的头四行
+- 使用较新的 mermaid 版本
+  - 修改 `_includes/footer.html` 文件第 51 行为 `<script src="https://cdn.jsdelivr.net/npm/mermaid@8.5.0/dist/mermaid.min.js"></script>`
+
+## 添加状态转换图
+
+```markdown
+<div class="mermaid">
+stateDiagram
+  [*] --> S0
+  S0 --> S0 : B,C
+  S0 --> S1 : A
+  S1 --> S1 : A
+  S1 --> S0 : C
+  S1 --> S2 : B
+  S2 --> S0 : B,C
+  S2 --> S3 : A
+  S3 --> S1 : A
+  S3 --> S0 : C
+  S3 --> S4 : B
+  S4 --> S0 : B,C
+  S4 --> S5 : A
+  S5 --> S1 : A
+  S5 --> S4 : B
+  S5 --> S6 : C
+  S6 --> [*]
+</div>
+```
+
+这里需要格外注意的是，状态名词不能以数字开头！
+
+<div class="mermaid">
+stateDiagram
+  [*] --> S0
+  S0 --> S0 : B,C
+  S0 --> S1 : A
+  S1 --> S1 : A
+  S1 --> S0 : C
+  S1 --> S2 : B
+  S2 --> S0 : B,C
+  S2 --> S3 : A
+  S3 --> S1 : A
+  S3 --> S0 : C
+  S3 --> S4 : B
+  S4 --> S0 : B,C
+  S4 --> S5 : A
+  S5 --> S1 : A
+  S5 --> S4 : B
+  S5 --> S6 : C
+  S6 --> [*]
+</div>
+
