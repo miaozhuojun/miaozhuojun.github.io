@@ -52,8 +52,8 @@ nnoremap <localleader>sv :source $MYVIMRC<cr>
 " More Mappings
 nnoremap <localleader>" viw<esc>a"<esc>bi"<esc>lel
 
-nnoremap <localleader>m viw<esc>a`$<esc>bbi$`<esc>f$
-vnoremap <localleader>m <esc>a`$<esc>gvo<esc>i$`<esc>f$
+nnoremap <localleader>m viw<esc>a$$<esc>bbi$$<esc>f$
+vnoremap <localleader>m <esc>a$$<esc>gvo<esc>i$$<esc>f$
 
 nnoremap <localleader>b viw<esc>a*<esc>bi*<esc>lel
 vnoremap <localleader>b <esc>a*<esc>gvo<esc>i*<esc>lel

@@ -207,9 +207,9 @@ mermaid: true
     id1 --> id3(Netlib native BLAS: Fortran to native BLAS);
     id1 --> id4(Netlib F2j BLAS: Fortran to Java bytecode BLAS);
     id2 --> id5(native_system-java.jar);
-    id5 - JNI -> id6(netlib-native_system.so);
+    id5 -->|JNI| id6(netlib-native_system.so);
     id6 --> id7(libopenblas.so);
-    id7 - link -> id8(OpenBLAS/KML);
+    id7 -->|link| id8(OpenBLAS/KML);
   </div>
 
 - Netlib BLAS 的算法实现没有经过太多优化，存在从算法层面提升性能的空间
