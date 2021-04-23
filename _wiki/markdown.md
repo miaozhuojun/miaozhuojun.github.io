@@ -49,7 +49,7 @@ mermaid: true
 - 使用较新的 mermaid 版本
   - 修改 `_includes/footer.html` 文件第 51 行为 `<script src="https://cdn.jsdelivr.net/npm/mermaid@8.5.0/dist/mermaid.min.js"></script>` [^1]
 
-## 添加状态转换图
+## 添加状态转换图 [^2]
 
 ```markdown
 <div class="mermaid">
@@ -98,3 +98,4 @@ stateDiagram
 </div>
 
 [^1]: [如何使用 mermaid 中的 classDiagram？](https://github.com/mzlogin/mzlogin.github.io/issues/131)
+[^2]: [State diagrams](https://mermaid-js.github.io/mermaid/#/stateDiagram)
