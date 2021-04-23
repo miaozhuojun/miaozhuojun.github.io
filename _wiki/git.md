@@ -110,3 +110,25 @@ keywords: git, 版本管理
   ```
   http://github/com/foo/bar/commit/${ID}.patch/
   ```
+
+### stash 使用方法
+
+- 保存现场未提交修改
+
+  `git stash`
+
+- 查看保存的修改
+
+  `git stash list`
+
+- 查看某次保存的修改内容
+
+  `git stash show -p <stash>`
+
+- 删除某次保存
+
+  `git stash drop <stash>`
+
+- 恢复保存修改到工作空间
+
+  `git stash pop`
