@@ -26,6 +26,10 @@ keywords: git, 版本管理
 
   `git remote rm repository_name`
 
+- 修改本地分支和远程仓分支的映射关系
+
+  `git branch -u <repository>/<branch> <branch>`
+
 ### 本地文件修改
 
 - 重命名文件
