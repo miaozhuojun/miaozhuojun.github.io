@@ -27,7 +27,7 @@ keywords: JVM，调测，选项
 - 构建可调试版本
 
   ```shell
-  bash ./configure --with-debug-level=fastdebug --with-native--debug-symbols=internal
+  bash ./configure --with-debug-level=fastdebug --with-native-debug-symbols=internal
   make images CONF=fastdebug
   ```
 
