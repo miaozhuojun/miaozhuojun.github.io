@@ -1,6 +1,6 @@
 ---
 layout: wiki
-title: JVM 相关
+title: JVM
 categories: JVM
 description: JVM 相关
 keywords: JVM，调测，选项
@@ -48,4 +48,15 @@ keywords: JVM，调测，选项
 - 字节码指令手册
 
   [Chapter 6. The Java Virtual Machine Instruction Set](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html)
+
+## JVM 内存相关选项
+
+- -Xms<xxxk/m/g>
+  表示 JVM 初始化时堆的大小。
+
+- -Xmx<xxxk/m/g>
+  表示 JVM 堆可以分配到的最大值。
+
+- -Xmn<xxxk/m/g>
+  表示 JVM 堆区新生代的大小
 
