@@ -77,8 +77,10 @@ inoremap jk <esc>
 " May cause paste problem
 " inoremap <esc> <nop>
 
-autocmd FileType java  nnoremap <buffer> <localleader>c I// <esc>
-autocmd FileType c     nnoremap <buffer> <localleader>c I// <esc>
-autocmd FileType c++   nnoremap <buffer> <localleader>c I// <esc>
-autocmd FileType shell nnoremap <buffer> <localleader>c I# <esc>
-autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
+augroup filetype
+	autocmd FileType java  nnoremap <buffer> <localleader>c I// <esc>
+	autocmd FileType c     nnoremap <buffer> <localleader>c I// <esc>
+	autocmd FileType c++   nnoremap <buffer> <localleader>c I// <esc>
+	autocmd FileType shell nnoremap <buffer> <localleader>c I# <esc>
+	autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
+augroup END
