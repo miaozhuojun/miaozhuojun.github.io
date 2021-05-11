@@ -1,6 +1,6 @@
 ---
 layout: wiki
-title: JMH 命令和选项
+title: JMH
 categories: JMH
 description: JMH 命令和选项
 keywords: JMH，选项

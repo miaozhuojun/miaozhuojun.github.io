@@ -132,3 +132,10 @@ keywords: git, 版本管理
 - 恢复保存修改到工作空间
 
   `git stash pop`
+
+### 删除分支
+
+```
+git br -d <branch name>     // 删除已经 merge 的分支
+git br -D <branch name>     // 删除还没有 merge 的分支
+```
