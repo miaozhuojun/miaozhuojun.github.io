@@ -3,7 +3,7 @@ layout: wiki
 title: JVM
 categories: JVM
 description: JVM 相关
-keywords: JVM，调测，选项
+keywords: JVM，jtreg, 调测，选项
 ---
 
 ## 运行时选项
@@ -60,3 +60,6 @@ keywords: JVM，调测，选项
 - -Xmn<xxxk/m/g>
   表示 JVM 堆区新生代的大小
 
+## jtreg 选项参考
+
+[jtreg: Command Line Options](http://openjdk.java.net/jtreg/command-help.html)
