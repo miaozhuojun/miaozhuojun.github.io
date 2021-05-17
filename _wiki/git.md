@@ -139,3 +139,12 @@ keywords: git, 版本管理
 git br -d <branch name>     // 删除已经 merge 的分支
 git br -D <branch name>     // 删除还没有 merge 的分支
 ```
+
+### rebase
+
+合并主干代码时建议使用`rebase`：
+
+```shell
+git co <feature>
+git rebase <master>
+```
