@@ -27,3 +27,19 @@ username ALL=(ALL:ALL) NOPASSWD:ALL
 ```
 
 如果`/etc/sudoers`可编辑，也可直接编辑此文件。
+
+## 添加 man 手册
+
+有些环境没有`man`命令，需要安装 man-pages 这个包：
+
+```bash
+yum install -y man-pages
+```
+
+## 远程登陆 shell
+
+要从其他机器登陆 linux shell，比如 Windows shell，只需要使用`ssh`命令即可：
+
+```bash
+ssh <name>@<IP>
+```
