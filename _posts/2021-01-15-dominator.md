@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Dominator 识别算法
-categories: JVM, 算法
+categories: JVM
 description: Hotspot 中的 Dominator 识别算法
 keywords: Hotspot，C2，JVM，算法
 mathjax: true
