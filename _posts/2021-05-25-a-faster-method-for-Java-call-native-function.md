@@ -18,7 +18,7 @@ Java 语言由于其高效和安全的开发特性和平台无关性被众多开
 
 这里需要特别指出的是，Java 运行时编译器 JIT 的自动向量化能力较弱，所以在需要大量向量矩阵运算的高性能计算场景就需要借助 GCC/LLVM 等静态编译器编译优化能力。JIT 和 GCC 在向量化能力对比如下：
 
-<div align=center>![image](/images/posts/2021-05-25-a-faster-method-for-Java-call-native-function/fig1.png)
+<div align=center>![image](/images/posts/2021-05-25-a-faster-method-for-Java-call-native-function/fig1.png)</div>
 
 目前 Java 语言调用其他语言的方法主要是通过 JNI。JNI 是一个 Java 语言调用本地函数的标准接口，他的优点是兼容性强，可以和各种 JVM 实现交互，对 JVM 运行时的影响也较小。但是正是因为 JNI 的设计原则首先考虑了和 JVM 实现的解耦，导致其性能较差。具体来说，使用 JNI 调用本地库函数有如下几个缺点：
 
