@@ -45,17 +45,23 @@ Java 语言由于其高效和安全的开发特性和平台无关性被众多开
 
 从解释器调用 native function 需要两次跳转，首先从解释器跳转到 call stub，然后再从 call stub 跳转的 native function。下图展示了这个调用过程：
 
-![image](/images/posts/2021-05-25-a-faster-method-for-Java-call-native-function/fig2.png)
+<div align=center>
+<img src="/images/posts/2021-05-25-a-faster-method-for-Java-call-native-function/fig2.png">
+</div>
 
 ### 从 JIT 调用 native function
 
 从 JIT 调用 native function 一般只需要跳转一次。开始时，从 compiled code 跳转到 call stub，然后 call stub 再跳转到 native function，如下图所示：
 
-![image](/images/posts/2021-05-25-a-faster-method-for-Java-call-native-function/fig3.png)
+<div align=center>
+<img src="/images/posts/2021-05-25-a-faster-method-for-Java-call-native-function/fig3.png">
+</div>
 
 但是如果 native function 的参数是固定的，那么 call stub 也就是固定的，对于编译期不会发生变化的代码，JIT 会试图 inline，所以最终只需要跳转一次就可以调用 native function，效果如下：
 
-![image](/images/posts/2021-05-25-a-faster-method-for-Java-call-native-function/fig4.png)
+<div align=center>
+<img src="/images/posts/2021-05-25-a-faster-method-for-Java-call-native-function/fig4.png">
+</div>
 
 ## 效果
 
