@@ -91,3 +91,11 @@ double result = Double.longBitsToDouble(functionHandle.call(arg));
 
 - [An Efficient Native Function Interface for Java](https://dl.acm.org/doi/pdf/10.1145/2500828.2500832)
 - [Performance comparison between Java and JNI for optimalimplementation of computational micro-kernels](https://hal.archives-ouvertes.fr/hal-01277940/document)
+- [JNI的作用与工作原理](http://luori366.github.io/JNI_doc/jni_design_theory.html)
+- [Java Native Interface Overview](https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/intro.html)
+- [Why JNI is slow?](https://www.youtube.com/watch?v=LoyBTqkSkZk)
+- [Bits of Advice for the VM Writer, by Cliff Click @ Curry On 2015](https://www.slideshare.net/curryon/cliff-clickbitsofadviceforthevmwriter)
+- [Understand the overhead of JNI](http://golangcloud.blogspot.com/2012/05/understand-overhead-of-jni.html)
+- [Inlining Java Native Calls At Runtime](https://www.usenix.org/legacy/events/vee05/full_papers/p121-stepanian.pdf)
+- [Best practices for using the Java Native Interface](https://developer.ibm.com/languages/java/articles/j-jni/)
+- [The overhead of native calls in Java](https://www.javamex.com/tutorials/jni/overhead.shtml)
