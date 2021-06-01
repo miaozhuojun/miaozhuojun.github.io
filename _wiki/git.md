@@ -148,3 +148,9 @@ git br -D <branch name>     // 删除还没有 merge 的分支
 git co <feature>
 git rebase <master>
 ```
+
+### 检出远端分支到本地
+
+```shell
+git checkout -b b1 origin/b1
+```
