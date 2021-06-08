@@ -73,3 +73,55 @@ keywords: JVM，jtreg, 调测，选项
 - 开启JVM选项打印汇编指令
 
   `-XX:CompileCommand=print,java/lang/String.equals` or `-XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -XX:+PrintOptoAssembly`
+  
+## Java字符串
+
+Java 9 的 String，引入了类似 Python str 的压缩功能。原理很简单，如果 String 只包含 Latin1 字符，1 字节存一个字符够用了，如果 String 含有中文，那么就换一种编码方式存储，一般一个字符存储两个字节。定义如下：
+
+```java
+public final class String
+    implements java.io.Serializable, Comparable<String>, CharSequence {
+
+    /**
+     * The value is used for character storage.
+     *
+     * @implNote This field is trusted by the VM, and is a subject to
+     * constant folding if String instance is constant. Overwriting this
+     * field after construction will cause problems.
+     *
+     * Additionally, it is marked with {@link Stable} to trust the contents
+     * of the array. No other facility in JDK provides this functionality (yet).
+     * {@link Stable} is safe here, because value is never null.
+     */
+    @Stable
+    private final byte[] value;
+
+    /**
+     * The identifier of the encoding used to encode the bytes in
+     * {@code value}. The supported values in this implementation are
+     *
+     * LATIN1
+     * UTF16
+     *
+     * @implNote This field is trusted by the VM, and is a subject to
+     * constant folding if String instance is constant. Overwriting this
+     * field after construction will cause problems.
+     */
+    private final byte coder;
+
+    /** Cache the hash code for the string */
+    private int hash; // Default to 0
+}
+
+final class StringLatin1 {
+}
+
+final class StringUTF16 {
+}
+```
+
+字符序列存储在字节数组 value 中，然后用一个字节的 coder 表示编码，这是 String 的基本构成。然后 StringLatin1 提供一组静态方法，用来处理只含有 Latin1 字符时的情况。相应的 StringUTF16 提供另一组静态方法，处理包含 Latin1 以外字符时的情况。
+
+注意类的定义，三个类都是 final，且只有 String 有 public 修饰，所以我们作为 JDK 的用户，只能使用 String，而不能使用 StringLatin1 或者 StringUTF16，这两个类不属于 API，属于实现细节，我们既不能使用，也不能依赖其内部实现。但是我们应该理解它，顺从它，避免做出违背它的事情来。
+
+该特性由 +XX:-CompactStrings 提供。
