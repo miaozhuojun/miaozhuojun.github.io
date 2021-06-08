@@ -8,10 +8,14 @@ keywords: eclipse，配置
 
 以下是关于 eclipse 的使用小技巧，会不断更新
 
-## Eclipse 搜索文件
+## 搜索文件
 
-  `ctrl+shift+r`
+`ctrl+shift+r`
 
-## Eclipse 如何跳转到 Java 系统类的源代码
+## 如何跳转到 Java 系统类的源代码
 
 点 window -> Preferences -> Java -> Installed JRES 配置对应 JDK 源码编译出的 JRE 即可，它会自动配置 Source Attachment。
+
+## 搜索符号
+
+`Ctrl+Shift+t`
