@@ -63,3 +63,11 @@ keywords: JVM，jtreg, 调测，选项
 ## jtreg 选项参考
 
 [jtreg: Command Line Options](http://openjdk.java.net/jtreg/command-help.html)
+
+## 打印JIT生成汇编指令
+
+- 使用hsdis解析机器指令到汇编指令
+  `cp ~/share/hsdis/hsdis-aarch64.so ../jdk/build/linux-aarch64-server-fastdebug/images/jdk/lib/server/`
+  
+- 开启JVM选项打印汇编指令
+  `-XX:CompileCommand=print,java/lang/String.equals` or `-XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -XX:+PrintOptoAssembly`
