@@ -43,3 +43,17 @@ yum install -y man-pages
 ```bash
 ssh <name>@<IP>
 ```
+
+## 反汇编
+
+`objdump <option> a.out`
+
+-d：将代码段反汇编。
+
+-S：将代码段反汇编的同时，将反汇编代码和源代码交替显示，编译时需要给出 -g，即需要调试信息。
+
+-C：将 C++ 符号名逆向解析。
+
+-l：反汇编代码中插入源代码的文件名和行号。
+
+-j section：仅反汇编指定的 section。可以有多个 -j 参数来选择多个 section。
