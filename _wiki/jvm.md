@@ -22,6 +22,13 @@ keywords: JVM，jtreg, 调测，选项
 
 请参考 [PrintAssembly](https://wiki.openjdk.java.net/display/HotSpot/PrintAssembly)
 
+### `CompileCommand`选项
+
+可以控制JVM编译指定的函数：
+```
+-XX:CompileCommand=compileonly,<ClassName>.<function|*>
+```
+
 ## 编译 JDK
 
 - 构建可调试版本
