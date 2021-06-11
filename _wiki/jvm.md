@@ -29,6 +29,18 @@ keywords: JVM，jtreg, 调测，选项
 -XX:CompileCommand=compileonly,<ClassName>.<function|*>
 ```
 
+### `PrintInlining`选项
+
+查看函数 inline 情况
+
+### `PrintIntrinsics`选项
+
+打印调用 intrinsic 情况
+
+### `TieredStopAtLevel=1`选项
+
+不开启C2编译
+
 ## 编译 JDK
 
 - 构建可调试版本
@@ -36,6 +48,13 @@ keywords: JVM，jtreg, 调测，选项
   ```shell
   bash ./configure --with-debug-level=fastdebug --with-native-debug-symbols=internal
   make images CONF=fastdebug
+  ```
+
+- 指定安装目录
+
+  ```shell
+  ./configure --prefix=<path to install>
+  make install
   ```
 
 ## 基本测试
