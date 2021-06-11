@@ -36,3 +36,12 @@ keywords: gdb, 技巧
 display /10i $pc
 si/ni
 ```
+
+## 处理信号
+
+在调试JVM时，由于JVM对某些信号会做处理，所以不能让GDB先处理，需要屏蔽：
+
+```shell
+handle SIGSEGV pass nostop noprint
+handle SIGILL pass nostop noprint
+```
