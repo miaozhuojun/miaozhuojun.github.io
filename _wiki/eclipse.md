@@ -31,3 +31,5 @@ keywords: eclipse，配置
 某个文件很大，可能有数千行，当你想要参考文件中的某一部分来添加内容时分屏显示将格外方便，分屏的方法如下: 
 
 Window -> Editor -> Toggle Split Editor (Ctrl + _)
+
+关闭分屏只要再次同样操作即可。
