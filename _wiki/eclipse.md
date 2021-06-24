@@ -19,3 +19,9 @@ keywords: eclipse，配置
 ## 搜索符号
 
 `Ctrl+Shift+t`
+
+## 性能提升
+
+- 禁止自动 build
+
+  eclipse 默认是自动编译的，自动编译会消耗系统资源，如果你想取消自动编译，可以在eclipse的菜单栏中点击project，去掉build automaticaly前面的勾。
