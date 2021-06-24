@@ -25,3 +25,9 @@ keywords: eclipse，配置
 - 禁止自动 build
 
   eclipse 默认是自动编译的，自动编译会消耗系统资源，如果你想取消自动编译，可以在eclipse的菜单栏中点击project，去掉build automaticaly前面的勾。
+  
+## 分屏显示同一文件
+
+某个文件很大，可能有数千行，当你想要参考文件中的某一部分来添加内容时分屏显示将格外方便，分屏的方法如下: 
+
+Window -> Editor -> Toggle Split Editor (Ctrl + _)
