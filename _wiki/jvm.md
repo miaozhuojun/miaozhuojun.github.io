@@ -86,7 +86,7 @@ keywords: JVM，jtreg, 调测，选项
 - -Xmn<xxxk/m/g>
   表示 JVM 堆区新生代的大小
 
-## jtreg 选项参考
+## Jtreg 选项参考
 
 [jtreg: Command Line Options](http://openjdk.java.net/jtreg/command-help.html)
 
@@ -151,3 +151,11 @@ final class StringUTF16 {
 注意类的定义，三个类都是 final，且只有 String 有 public 修饰，所以我们作为 JDK 的用户，只能使用 String，而不能使用 StringLatin1 或者 StringUTF16，这两个类不属于 API，属于实现细节，我们既不能使用，也不能依赖其内部实现。但是我们应该理解它，顺从它，避免做出违背它的事情来。
 
 该特性由 +XX:-CompactStrings 提供。
+
+## IGV
+
+为了方便查看字节码编译到本地指令过程中程序的中间表示（IR），使用JDK官方的可视化工具 IdealGraph 可以展示每一步优化后的 IR。使用下面命令生成 IGV 数据：
+
+```shell
+build/linux-aarch64-server-slowdebug/images/jdk/bin/java --add-modules=jdk.incubator.vector -XX:PrintIdealGraphLevel=1 -XX:PrintIdealGraphFile=b2i.xml -XX:CompileCommand=compileonly,TestCastB2XNode.* TestCastB2XNode
+```
