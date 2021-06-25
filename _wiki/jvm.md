@@ -57,6 +57,10 @@ keywords: JVM，jtreg, 调测，选项
   make install
   ```
 
+- 编译时忽略告警错误
+
+  `--disable-warnings-as-errors`
+
 ## 基本测试
 
 - 在 configure 前指 jtreg
