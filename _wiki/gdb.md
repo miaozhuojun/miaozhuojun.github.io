@@ -51,3 +51,9 @@ handle SIGILL pass nostop noprint
 ```shell
 gdb path/to/the/executable path/to/the/coredump
 ```
+
+## 退出当前函数
+
+- 第一种用`finish`命令，这样函数会继续执行完，并且打印返回值，然后等待输入接下来的命令。
+
+- 第二种用`return`命令，这样函数不会继续执行下面的语句，而是直接返回。也可以用`return expression`命令指定函数的返回值。
