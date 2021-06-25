@@ -45,3 +45,9 @@ si/ni
 handle SIGSEGV pass nostop noprint
 handle SIGILL pass nostop noprint
 ```
+
+## 调试 coredump
+
+```shell
+gdb path/to/the/executable path/to/the/coredump
+```
