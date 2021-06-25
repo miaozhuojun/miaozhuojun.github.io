@@ -161,3 +161,7 @@ final class StringUTF16 {
 为了方便查看字节码编译到本地指令过程中程序的中间表示（IR），使用JDK官方的可视化工具 IdealGraph 可以展示每一步优化后的 IR。使用下面命令生成 IGV 数据：
 
 `build/linux-aarch64-server-slowdebug/images/jdk/bin/java --add-modules=jdk.incubator.vector -XX:PrintIdealGraphLevel=1 -XX:PrintIdealGraphFile=b2i.xml -XX:CompileCommand=compileonly,TestCastB2XNode.* TestCastB2XNode`
+
+## 更新针对新指令的 gtest 测试用例
+
+`python test/hotspot/gtest/aarch64/aarch64-asmtest.py | expand > test/hotspot/gtest/aarch64/asmtest.out.h`
