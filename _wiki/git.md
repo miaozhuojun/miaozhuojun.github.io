@@ -154,3 +154,9 @@ git rebase <master>
 ```shell
 git checkout -b b1 origin/b1
 ```
+
+### 回退提交
+
+```shell
+git reset –-hard <commit_id>
+```
