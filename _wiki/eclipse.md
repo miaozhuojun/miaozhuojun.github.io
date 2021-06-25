@@ -6,7 +6,7 @@ description: eclipse 使用技巧
 keywords: eclipse，配置
 ---
 
-以下是关于 eclipse 的使用小技巧，会不断更新
+以下是关于 eclipse 的使用小技巧，会不断更新。
 
 ## 搜索文件
 
@@ -33,3 +33,9 @@ keywords: eclipse，配置
 Window -> Editor -> Toggle Split Editor (Ctrl + _)
 
 关闭分屏只要再次同样操作即可。
+
+## 设置换行符
+
+对已有文件修改其换行符：
+
+选择 File->Convert Line Delimiters To
