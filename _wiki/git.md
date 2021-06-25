@@ -160,3 +160,18 @@ git checkout -b b1 origin/b1
 ```shell
 git reset –-hard <commit_id>
 ```
+
+### 不跟踪指定文件
+
+在`.gitignore`中添加不被跟踪的文件或者文件夹：
+
+```
+# 排除所有. 开头的隐藏文件：
+.*
+# 排除所有.class 文件：
+*.class
+
+# 不排除.gitignore 和 App.class:
+!.gitignore
+!App.class
+```
