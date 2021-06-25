@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-description: 啥也不是的货
+description: 简历
 keywords:  Zhuojun Miao
 comments: true
 menu: 关于
