@@ -165,3 +165,30 @@ final class StringUTF16 {
 ## 更新针对新指令的 gtest 测试用例
 
 `python test/hotspot/gtest/aarch64/aarch64-asmtest.py | expand > test/hotspot/gtest/aarch64/asmtest.out.h`
+
+## 新的 instanceOf 操作符
+
+传统上，我们用 Java 写程序判断一个对象是否属于某个类，如果是的话就做 cast 转换会写如下代码：
+
+```java
+if (animal instanceof Cat) {
+    Cat cat = (Cat) animal;
+    cat.meow();
+   // other cat operations
+} else if (animal instanceof Dog) {
+    Dog dog = (Dog) animal;
+    dog.woof();
+    // other dog operations
+}
+```
+
+这样的代码冗长且容易出错。在 Java 14 中引入了一种新的语法解决了这个问题：
+
+```java
+if (animal instanceof Cat cat) {
+    cat.meow();
+} else if(animal instanceof Dog dog) {
+    dog.woof();
+}
+```
+
