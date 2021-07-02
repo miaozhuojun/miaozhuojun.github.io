@@ -16,4 +16,30 @@ keywords: raspberryPi，配置
 disable_overscan=1
 ```
 
+## 给 openEulerOS + xfce 添加蓝牙管理
+
+- 安装管理客户端
+  `sudo dnf install blueman`
+
+- 进入命令行界面
+  `bluetoothctl`
+
+- 打开蓝牙
+  `power on`
+
+- 搜索蓝牙设备
+  `scan on`
+
+- 配对
+  `pair <mac address>`
+
+- 信任蓝牙设备，只有这样才能自动连接
+  `trust <mac address>`
+
+- 主动连接蓝牙设备
+  `connect <mac address>`
+
+- 设置蓝牙开机启动
+  修改 /etc/bluetooth/main.conf 文件：
+  `AutoEnable=true`
 
