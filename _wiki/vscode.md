@@ -29,3 +29,11 @@ keywords: vscode，配置
 - 搜索符号
   - 当前文件： `Ctrl+Shift+o`
   - 全局文件： `Ctrl+t`
+
+## 当前文件显示完整路径信息
+
+- File->Preferences->Settings
+
+- 搜索 window.title
+
+- 修改 activeEditorShort => activeEditorLong
