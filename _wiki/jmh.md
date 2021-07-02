@@ -53,3 +53,9 @@ keywords: JMH，选项
   ```shell
   mvn clean package
   ```
+
+### make 直接跑 jmh
+
+[Testing the JDK](https://openjdk.java.net/groups/build/doc/testing.html)
+
+`make test TEST="micro:java.lang.StringEquals" MICRO="VM_OPTIONS=-XX:+UseSimpleStringEquals" CONF=fastdebug`
